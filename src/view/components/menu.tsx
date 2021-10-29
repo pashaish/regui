@@ -1,25 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tree } from './tree';
 import { Input } from './input';
+import { TreeNode } from '../../types/tree';
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../reducers';
+import { changeSearchFieldAction, getTreeAction } from '../actions/viewerAction';
 
 const style = require('./menu.css').default;
 
-interface ITree {
-    [key: string]: ITree;
-};
+export const Menu = () => {
+    type state = ReturnType<typeof store.getState>;
+    const searchField = useSelector<state, string>((state) => state.viewerReducer.searchField);
+    const tree = useSelector<state, TreeNode>((state) => state.viewerReducer.tree);
 
-interface IProps {
-    tree: ITree;
-    searchFieldOnChange: (val: string) => void;
-    searchField: string;
-}
+    const dispatch = useDispatch();
 
-export const Menu = ({ tree, searchFieldOnChange, searchField }: IProps) => {
+    useEffect(() => {
+        dispatch(getTreeAction());
+    }, [searchField]);
+
     return <div className={style.menu}>
-        <Input onChange={(e) => searchFieldOnChange(e.target.value)} value={searchField} />
+        <Input onChange={(e) => dispatch(changeSearchFieldAction(e.target.value))} value={searchField} />
         <div className={style.tree}>
             {Object.keys(tree).map(key => <>
-                <Tree current={key} tree={tree}></Tree>        
+                <Tree
+                    current={key}
+                    tree={tree}
+                />        
             </>)}
         </div>
     </div>

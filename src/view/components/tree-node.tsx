@@ -39,7 +39,7 @@ const defineNodeType = (
     return "close";
 }
 
-export const Tree = ({ current, tree }: IProps) => {
+export const TreeNode = ({ current, tree }: IProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const type = defineNodeType(tree, current, isOpen);
@@ -51,7 +51,7 @@ export const Tree = ({ current, tree }: IProps) => {
         <div className={isOpen ? '' : style.hidden}>
             {Object.keys(tree[current]).map((key, index) => 
                 <div key={key}>
-                    <Tree
+                    <TreeNode
                         current={key}
                         tree={tree[current] || {}}
                     />

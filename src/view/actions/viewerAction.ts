@@ -1,4 +1,4 @@
-import { TreeNode } from '../../types/tree';
+import { ITreeNode } from '../../types/tree';
 import { redisAPI } from '../common'
 import { store } from '../reducers';
 
@@ -19,14 +19,14 @@ export const getTreeAction = () => {
         const state = getState() as ReturnType<typeof store.getState>;
         dispatch(getTreeActionStarted());
         redisAPI.getKeys(`*${state.viewerReducer.searchField.trim()}*` || '*').then((tree) => {
-            dispatch(getTreeActionSuccess(tree as TreeNode))
+            dispatch(getTreeActionSuccess(tree as ITreeNode))
         }).catch((err) => {
             dispatch(getTreeActionFailure())
         });
     }
 };
 
-export const getTreeActionSuccess = (tree: TreeNode) => {
+export const getTreeActionSuccess = (tree: ITreeNode) => {
     return {
         type: VIEWER_GET_TREE_SUCCESS as typeof VIEWER_GET_TREE_SUCCESS,
         tree,

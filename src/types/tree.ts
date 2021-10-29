@@ -1,3 +1,3 @@
-export interface TreeNode {
-    [key: string]: TreeNode;
+export interface ITreeNode {
+    [key: string]: ITreeNode;
 }

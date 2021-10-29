@@ -1,4 +1,4 @@
-import { TreeNode } from "../../types/tree"
+import { ITreeNode } from "../../types/tree"
 import { viewerAction, VIEWER_CHANGE_SEARCH_FIELD, VIEWER_GET_TREE_STARTED, VIEWER_GET_TREE_FAIlURE, VIEWER_GET_TREE_SUCCESS } from "../actions/viewerAction";
 
 export enum STATUS_LOADING_TREE {
@@ -11,7 +11,7 @@ interface InitialState {
     searchField: string;
     currentKey: string;
     statusLoadingTree: STATUS_LOADING_TREE;
-    tree: TreeNode;
+    tree: ITreeNode;
 }
 
 const initialState: InitialState = {

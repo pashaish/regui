@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { redisAPI } from '../../common';
 import { Menu } from "../menu/menu";
 
 const style = require('./tree-node.css').default;
@@ -11,6 +12,7 @@ interface IProps {
     tree: ITree;
     isRoot?: boolean;
     current?: string;
+    path: string[];
 }
 
 const icons = {
@@ -35,8 +37,18 @@ const defineNodeType = (
     return "close";
 }
 
-export const TreeNode = ({ current, tree }: IProps) => {
+export const TreeNode = ({ current, tree, path }: IProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    const [recordType, setRecordType] = React.useState('empty');
+
+    useEffect(() => {
+        redisAPI.defineType(path.join(':')).then((type) => {
+            setRecordType(type);
+            console.log(type, path.join(':'));
+        }).catch((err) => {
+            setRecordType('none')
+        });
+    }, [recordType]);
 
     const type = defineNodeType(tree, current, isOpen);
 
@@ -53,7 +65,8 @@ export const TreeNode = ({ current, tree }: IProps) => {
             {Object.keys(tree[current]).map((key, index) => 
                 <div key={key}>
                     <TreeNode
-                        key={key}
+                        path={[...path, key]}
+                        key={[...path, key].join(':')}
                         current={key}
                         tree={tree[current] || {}}
                     />

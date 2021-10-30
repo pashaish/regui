@@ -24,6 +24,7 @@ export const Menu = () => {
         <div className={style.tree}>
             {Object.keys(tree).map(key =>
                 <TreeNode
+                    path={[key]}
                     key={key}
                     current={key}
                     tree={tree}

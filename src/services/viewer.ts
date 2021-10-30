@@ -16,13 +16,15 @@ contextBridge?.exposeInMainWorld('redisAPI', {
         });
     },
     defineType: (key: string) => {
-        client.type(key, (err, type) => new Promise((res, rej) => {
-            if (err) {
-                rej(err);
-            } else {
-                res(type);
-            }
-        }));
+        return new Promise((res, rej) => {
+            client.type(key, (err, type) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    res(type);
+                }
+            });
+        });
     }
 });
 

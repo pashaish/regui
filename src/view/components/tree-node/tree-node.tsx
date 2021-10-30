@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { redisAPI } from '../../common';
 import { Menu } from "../menu/menu";
+import { FaList, FaCrow, FaFont } from 'react-icons/fa';
 
 const style = require('./tree-node.css').default;
 
@@ -15,17 +16,23 @@ interface IProps {
     path: string[];
 }
 
-const icons = {
+const openCloseIcons = {
     open: "-",
     close: "+",
     final: " ",
+}
+
+const typeIcons = {
+    'set': <FaList />,
+    'string': <FaFont />,
+    'none': '',
 }
 
 const defineNodeType = (
     tree: Object,
     current: string,
     isOpen: boolean,
-): keyof typeof icons => {
+): keyof typeof openCloseIcons => {
     if (Object.keys(tree[current]).length === 0) {
         return "final";
     }
@@ -39,12 +46,11 @@ const defineNodeType = (
 
 export const TreeNode = ({ current, tree, path }: IProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [recordType, setRecordType] = React.useState('empty');
+    const [recordType, setRecordType] = React.useState('none');
 
     useEffect(() => {
         redisAPI.defineType(path.join(':')).then((type) => {
             setRecordType(type);
-            console.log(type, path.join(':'));
         }).catch((err) => {
             setRecordType('none')
         });
@@ -55,10 +61,10 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     return <div className={style.tree}>
         <div className={style.row}>
             <div onClick={() => setIsOpen(!isOpen)}>
-                {icons[type]}
+                {openCloseIcons[type]}
             </div>
             <div onClick={() => {}}>
-                {current}
+                {current} {typeIcons[recordType]}
             </div>
         </div>
         <div className={isOpen ? '' : style.hidden}>

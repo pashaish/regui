@@ -51,6 +51,7 @@
   "dependencies": {
     "@types/react": "^17.0.33",
     "@types/redis": "^2.8.32",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "react-icons": "^4.3.1"
   }
 }

@@ -2,7 +2,8 @@
 declare global {
     interface Window {
         redisAPI: {
-            getKeys: (pattern?: string) => Promise<Object>
+            getKeys: (pattern?: string) => Promise<Object>;
+            defineType: (key: string) => Promise<string>;
         }
     }
 }

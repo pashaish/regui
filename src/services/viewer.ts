@@ -1,6 +1,8 @@
 import { contextBridge } from 'electron';
 import redis from 'redis';
 
+const client = redis.createClient();
+
 contextBridge?.exposeInMainWorld('redisAPI', {
     getKeys: (pattern = '*') => {
         return new Promise((res, rej) => {
@@ -13,9 +15,16 @@ contextBridge?.exposeInMainWorld('redisAPI', {
             });
         });
     },
-})
-const client = redis.createClient();
-
+    defineType: (key: string) => {
+        client.type(key, (err, type) => new Promise((res, rej) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(type);
+            }
+        }));
+    }
+});
 
 export function createTreeByKeys(keys: string[]) {
     const tree = {};

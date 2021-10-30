@@ -1,7 +1,7 @@
 import React from 'react';
-import { Menu } from "./menu";
+import { Menu } from "../menu/menu";
 
-const style = require('./tree.css').default;
+const style = require('./tree-node.css').default;
 
 interface ITree {
     [key: string]: ITree;
@@ -11,10 +11,6 @@ interface IProps {
     tree: ITree;
     isRoot?: boolean;
     current?: string;
-}
-
-const onClick = (isOpen, setIsOpen) => () => {
-    setIsOpen(!isOpen);
 }
 
 const icons = {
@@ -45,13 +41,19 @@ export const TreeNode = ({ current, tree }: IProps) => {
     const type = defineNodeType(tree, current, isOpen);
 
     return <div className={style.tree}>
-        <div onClick={onClick(isOpen, setIsOpen)}>
-            {icons[type]} {current}
+        <div className={style.row}>
+            <div onClick={() => setIsOpen(!isOpen)}>
+                {icons[type]}
+            </div>
+            <div onClick={() => {}}>
+                {current}
+            </div>
         </div>
         <div className={isOpen ? '' : style.hidden}>
             {Object.keys(tree[current]).map((key, index) => 
                 <div key={key}>
                     <TreeNode
+                        key={key}
                         current={key}
                         tree={tree[current] || {}}
                     />

@@ -9,14 +9,13 @@ async function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.resolve(__dirname, '../dist/services/viewer.js'),
             devTools: true,
             nodeIntegration: true,
             contextIsolation: false,
         }
     });
 
-    win.loadFile(path.resolve(__dirname, '../dist/view/index.html'));
+    win.loadFile(path.resolve(__dirname, '../index.html'));
 }
 
 app.whenReady().then(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { redisAPI } from '../common';
+import { redisClient } from '../../common';
 import { Menu } from "./menu";
 import { FaList, FaCrow, FaFont } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
@@ -70,9 +70,9 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        redisAPI.defineType(path.join(':')).then((type) => {
+        redisClient.type(path.join(':')).then((type: any) => {
             setRecordType(type);
-        }).catch((err) => {
+        }).catch((err: any) => {
             setRecordType('none')
         });
     }, [recordType]);

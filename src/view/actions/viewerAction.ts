@@ -1,5 +1,5 @@
 import { ITreeNode } from '../../types/tree';
-import { redisAPI } from '../common'
+import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
@@ -19,9 +19,9 @@ export const getTreeAction = () => {
     return (dispatch: Function, getState: Function) => {
         const state = getState() as ReturnType<typeof store.getState>;
         dispatch(getTreeActionStarted());
-        redisAPI.getKeys(`*${state.viewerReducer.searchField.trim()}*` || '*').then((tree) => {
-            dispatch(getTreeActionSuccess(tree as ITreeNode))
-        }).catch((err) => {
+        redisClient.keys(`*${state.viewerReducer.searchField.trim()}*` || '*').then((tree: any) => {
+            dispatch(getTreeActionSuccess(createTreeByKeys(tree) as ITreeNode))
+        }).catch((err: any) => {
             dispatch(getTreeActionFailure())
         });
     }
@@ -59,7 +59,7 @@ export const getValueAction = (key: string, type: string) => {
     return (dispatch: Function) => {
         switch (type) {
             case 'string': 
-                redisAPI.get(key).then((value) => {
+                redisClient.get(key).then((value: any) => {
                     if(value) {
                         dispatch(setValue(value, key, type));
                     }

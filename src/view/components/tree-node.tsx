@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
 import { Menu } from "./menu";
-import { FaList, FaCrow, FaFont } from 'react-icons/fa';
+import { FaList, FaCrow, FaFont, FaListAlt } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -43,6 +43,7 @@ const openCloseIcons = {
 const typeIcons: Record<string, string | JSX.Element> = {
     'set': <FaList />,
     'string': <FaFont />,
+    'hash': <FaListAlt />,
     'none': '',
 }
 
@@ -80,7 +81,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const type = defineNodeType(tree, current, isOpen);
 
     return <div className={style.tree}>
-        <div className={style.row}>
+        <div className={style.row} data-type={recordType}>
             <div onClick={() => setIsOpen(!isOpen)}>
                 {openCloseIcons[type]}
             </div>

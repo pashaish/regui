@@ -55,7 +55,10 @@ export const setValue = (value: string, key: string, type: string) => {
     }
 }
 
-export const getValueAction = (key: string, type: string) => {
+export function getValueAction(key: string, type: 'set'): Function
+export function getValueAction(key: string, type: 'string'): Function
+export function getValueAction(key: string, type: string): Function
+export function getValueAction(key: string, type: any): Function {
     return (dispatch: Function) => {
         switch (type) {
             case 'string': 
@@ -66,7 +69,19 @@ export const getValueAction = (key: string, type: string) => {
                 });
                 break;
             case 'set':
-                break; 
+                redisClient.smembers(key).then((value: any) => {
+                    if(value) {
+                        dispatch(setValue(JSON.stringify(value), key, type));
+                    }
+                });
+                break;
+            case 'hash':
+                redisClient.hgetall(key).then((value: any) => {
+                    if (value) {
+                        dispatch(setValue(JSON.stringify(value), key, type));
+                    }
+                });
+                break;
             case 'none': 
                 break;
         }

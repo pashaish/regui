@@ -4,4 +4,9 @@ import thunk from 'redux-thunk';
 
 export const store = createStore(combineReducers({
     viewerReducer,
-}), applyMiddleware(thunk))
+}),
+    applyMiddleware(
+        thunk,
+    )
+)
+

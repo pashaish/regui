@@ -6,6 +6,7 @@ export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
 export const VIEWER_GET_TREE_STARTED = 'VIEWER_GET_TREE_LOADING';
 export const VIEWER_GET_TREE_FAIlURE = 'VIEWER_GET_TREE_PAYLOAD';
+export const VIEWER_SET_VALUE = 'VIEWER_SET_VALUE';
 
 export const changeSearchFieldAction = (value: string) => {
     return {
@@ -45,8 +46,34 @@ export const getTreeActionFailure = () => {
     }
 }
 
+export const setValue = (value: string, key: string, type: string) => {
+    return {
+        type: VIEWER_SET_VALUE as typeof VIEWER_SET_VALUE,
+        valueType: type,
+        key,
+        value
+    }
+}
+
+export const getValueAction = (key: string, type: string) => {
+    return dispatch => {
+        switch (type) {
+            case 'string': 
+                redisAPI.get(key).then(value => {
+                    dispatch(setValue(value, key, type));
+                });
+                break;
+            case 'set':
+                break; 
+            case 'none': 
+                break;
+        }
+    }
+}
+
 export type viewerAction = 
     | ReturnType<typeof changeSearchFieldAction>
     | ReturnType<typeof getTreeActionSuccess>
     | ReturnType<typeof getTreeActionStarted>
+    | ReturnType<typeof setValue>
     | ReturnType<typeof getTreeActionFailure>;

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { redisAPI } from '../../common';
 import { Menu } from "../menu/menu";
 import { FaList, FaCrow, FaFont } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { getValueAction, setValue } from '../../actions/viewerAction';
 
 const style = require('./tree-node.css').default;
 
@@ -48,6 +50,8 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [recordType, setRecordType] = React.useState('none');
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         redisAPI.defineType(path.join(':')).then((type) => {
             setRecordType(type);
@@ -63,7 +67,9 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             <div onClick={() => setIsOpen(!isOpen)}>
                 {openCloseIcons[type]}
             </div>
-            <div onClick={() => {}}>
+            <div onClick={() => {
+                dispatch(getValueAction(path.join(':'), recordType))
+            }}>
                 {current} {typeIcons[recordType]}
             </div>
         </div>

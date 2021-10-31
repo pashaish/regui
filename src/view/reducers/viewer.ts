@@ -10,13 +10,17 @@ export enum STATUS_LOADING_TREE {
 interface InitialState {
     searchField: string;
     currentKey: string;
+    type: string;
     statusLoadingTree: STATUS_LOADING_TREE;
     tree: ITreeNode;
+    value: string;
 }
 
 const initialState: InitialState = {
     searchField: '',
     currentKey: '',
+    type: '',
+    value: '',
     statusLoadingTree: STATUS_LOADING_TREE.REQUEST,
     tree: {},
 }

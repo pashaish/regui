@@ -1,32 +1,54 @@
 import { contextBridge } from 'electron';
-import redis from 'redis';
+import Redis from 'ioredis';
 
-const client = redis.createClient();
+export const redisClient = new Redis();
 
-contextBridge?.exposeInMainWorld('redisAPI', {
-    getKeys: (pattern = '*') => {
-        return new Promise((res, rej) => {
-            client.keys(pattern, (err, keys) => {
-                if (err) {
-                    rej(err);
-                } else {
-                    res(createTreeByKeys(keys));
-                }
-            });
+const redisAPI = {
+    getKeys: (pattern = '*') => new Promise<Object>((res, rej) => {
+        redisClient.keys(pattern, (err, keys) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(createTreeByKeys(keys));
+            }
         });
-    },
-    defineType: (key: string) => {
-        return new Promise((res, rej) => {
-            client.type(key, (err, type) => {
-                if (err) {
-                    rej(err);
-                } else {
-                    res(type);
-                }
-            });
+    }),
+    defineType: (key: string) => new Promise<string>((res, rej) => {
+        redisClient.type(key, (err, type) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(type);
+            }
         });
-    }
-});
+    }),
+    get: (key: string) => new Promise<string | null>((res, rej) => {
+        redisClient.get(key, (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        });
+    }),
+    hget: (key: string, field: string) => new Promise<string | null>((res, rej) => {
+        redisClient.hget(key, field, (err, result) => {
+            if (err) {
+                rej(err);
+            } else {
+                res(result);
+            }
+        });
+    }),
+};
+
+// @ts-ignore
+global.redisAPI = redisAPI;
+export type typeRedisApi = typeof redisAPI;
+
+// contextBridge?.exposeInMainWorld('redisAPI', redisAPI);
+
+
 
 export function createTreeByKeys(keys: string[]) {
     const tree = {};

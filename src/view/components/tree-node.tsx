@@ -1,11 +1,27 @@
 import React, { useEffect } from 'react';
-import { redisAPI } from '../../common';
-import { Menu } from "../menu/menu";
+import { redisAPI } from '../common';
+import { Menu } from "./menu";
 import { FaList, FaCrow, FaFont } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { getValueAction, setValue } from '../../actions/viewerAction';
+import { getValueAction, setValue } from '../actions/viewerAction';
+import { createUseStyles } from 'react-jss';
 
-const style = require('./tree-node.css').default;
+const useStyles = createUseStyles({
+    tree: {
+        paddingLeft: '4px',
+        marginLeft: '4px',
+        borderLeft: '1px solid black',
+        userSelect: 'none',
+        cursor: 'pointer',
+    },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    hidden: {
+        display: 'none',
+    }
+});
 
 interface ITree {
     [key: string]: ITree;
@@ -14,7 +30,7 @@ interface ITree {
 interface IProps {
     tree: ITree;
     isRoot?: boolean;
-    current?: string;
+    current: string;
     path: string[];
 }
 
@@ -24,14 +40,14 @@ const openCloseIcons = {
     final: " ",
 }
 
-const typeIcons = {
+const typeIcons: Record<string, string | JSX.Element> = {
     'set': <FaList />,
     'string': <FaFont />,
     'none': '',
 }
 
 const defineNodeType = (
-    tree: Object,
+    tree: ITree,
     current: string,
     isOpen: boolean,
 ): keyof typeof openCloseIcons => {
@@ -49,6 +65,7 @@ const defineNodeType = (
 export const TreeNode = ({ current, tree, path }: IProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [recordType, setRecordType] = React.useState('none');
+    const style = useStyles();
 
     const dispatch = useDispatch();
 

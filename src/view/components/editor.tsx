@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { store } from '../../reducers';
+import { store } from '../reducers';
 
 export const Editor = () => {
     type state = ReturnType<typeof store.getState>;

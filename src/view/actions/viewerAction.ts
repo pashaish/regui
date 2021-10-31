@@ -16,7 +16,7 @@ export const changeSearchFieldAction = (value: string) => {
 }
 
 export const getTreeAction = () => {
-    return (dispatch, getState) => {
+    return (dispatch: Function, getState: Function) => {
         const state = getState() as ReturnType<typeof store.getState>;
         dispatch(getTreeActionStarted());
         redisAPI.getKeys(`*${state.viewerReducer.searchField.trim()}*` || '*').then((tree) => {
@@ -56,11 +56,13 @@ export const setValue = (value: string, key: string, type: string) => {
 }
 
 export const getValueAction = (key: string, type: string) => {
-    return dispatch => {
+    return (dispatch: Function) => {
         switch (type) {
             case 'string': 
-                redisAPI.get(key).then(value => {
-                    dispatch(setValue(value, key, type));
+                redisAPI.get(key).then((value) => {
+                    if(value) {
+                        dispatch(setValue(value, key, type));
+                    }
                 });
                 break;
             case 'set':

@@ -5,7 +5,7 @@ import { store } from '../reducers';
 export const Editor = () => {
     type state = ReturnType<typeof store.getState>;
     const value = useSelector<state, string>(state => state.viewerReducer.value);
-    const type = useSelector<state, string>(state => state.viewerReducer.type);
+    const type = useSelector<state, string>(state => state.viewerReducer.valueType);
     const currentKey = useSelector<state, string>(state => state.viewerReducer.currentKey);
     return <div>
         {value}

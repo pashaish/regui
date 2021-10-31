@@ -50,7 +50,7 @@ export const setValue = (value: string, key: string, type: string) => {
     return {
         type: VIEWER_SET_VALUE as typeof VIEWER_SET_VALUE,
         valueType: type,
-        key,
+        currentKey: key,
         value
     }
 }

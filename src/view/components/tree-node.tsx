@@ -8,6 +8,18 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
 
 const useStyles = createUseStyles({
+    icon: {
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        fontSize: `8px`,
+        padding: `4px`,
+    },
+    keyPart: {
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+    },
     tree: {
         paddingLeft: '2px',
         marginLeft: '6px',
@@ -25,6 +37,8 @@ const useStyles = createUseStyles({
         paddingLeft: 0,
     },
     row: {
+        alignItems: 'center',
+        height: `18px`,
         display: 'flex',
         flexDirection: 'row',
         '&:hover': {
@@ -100,14 +114,17 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             }}>
                 {openCloseIcons[type]}
             </div>
-            <div onClick={() => {
+            <div className={style.keyPart} onClick={() => {
                 if (recordType !== 'none') {
                     dispatch(getValueAction(path.join(':'), recordType))
                 } else {
                     setIsOpen(!isOpen);
                 }
             }}>
-                {current} {typeIcons[recordType]}
+                {current}
+            </div>
+            <div className={style.icon}>
+                {typeIcons[recordType]}
             </div>
         </div>
         <div className={isOpen ? '' : style.hidden}>

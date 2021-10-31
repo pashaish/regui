@@ -4,6 +4,7 @@ import { store } from '../reducers';
 import { Input } from './input';
 import { createUseStyles } from 'react-jss';
 import { paddings } from '../constants/colors';
+import { HashEditor } from './editor/hash';
 
 const useStyles = createUseStyles({
     editor: {
@@ -12,6 +13,13 @@ const useStyles = createUseStyles({
         padding: paddings.main,
     }
 });
+
+const defineEditor = (type: string) => {
+    switch(type) {
+        case 'hash': return <HashEditor />
+        default: return '';
+    }
+}
 
 export const Editor = () => {
     type state = ReturnType<typeof store.getState>;
@@ -22,6 +30,6 @@ export const Editor = () => {
 
     return <div className={styles.editor}>
         <Input value={currentKey} />
-        {value}
+        {defineEditor(type)}
     </div>;
 }

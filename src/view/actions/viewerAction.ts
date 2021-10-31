@@ -8,6 +8,8 @@ export const VIEWER_GET_TREE_STARTED = 'VIEWER_GET_TREE_LOADING';
 export const VIEWER_GET_TREE_FAIlURE = 'VIEWER_GET_TREE_PAYLOAD';
 export const VIEWER_SET_VALUE = 'VIEWER_SET_VALUE';
 
+export const KEYS_LIMIT = 500;
+
 export const changeSearchFieldAction = (value: string) => {
     return {
         type: VIEWER_CHANGE_SEARCH_FIELD as typeof VIEWER_CHANGE_SEARCH_FIELD,
@@ -18,11 +20,22 @@ export const changeSearchFieldAction = (value: string) => {
 export const getTreeAction = () => {
     return (dispatch: Function, getState: Function) => {
         const state = getState() as ReturnType<typeof store.getState>;
+        const key = `*${state.viewerReducer.searchField.trim()}*` || '*';
         dispatch(getTreeActionStarted());
-        redisClient.keys(`*${state.viewerReducer.searchField.trim()}*` || '*').then((tree: any) => {
-            dispatch(getTreeActionSuccess(createTreeByKeys(tree) as ITreeNode))
-        }).catch((err: any) => {
-            dispatch(getTreeActionFailure())
+        const stream = redisClient.scanStream({
+            count: 100,
+            match: key,
+        });
+        const findedKeys: string[] = [];
+        stream.on('data', (chunk) => {
+            findedKeys.push(...chunk);
+            dispatch(getTreeActionSuccess(createTreeByKeys(findedKeys) as ITreeNode));
+            if (findedKeys.length >= KEYS_LIMIT) {
+                stream.destroy();
+            }
+        });
+        stream.on('end', () => {
+            console.log('end');
         });
     }
 };

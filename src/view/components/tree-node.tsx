@@ -5,18 +5,31 @@ import { FaList, FaCrow, FaFont, FaListAlt } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
+import { colors } from '../constants/colors';
 
 const useStyles = createUseStyles({
     tree: {
-        paddingLeft: '4px',
-        marginLeft: '4px',
-        borderLeft: '1px solid black',
+        paddingLeft: '2px',
+        marginLeft: '6px',
         userSelect: 'none',
         cursor: 'pointer',
+        borderLeft: `1px solid ${colors.secondFont}`,
+    },
+    closeStatusIcon: {
+        marginRight: '2px',
+        marginLeft: '2px',
+    },
+    rootNode: {
+        borderLeft: `1px solid transparent`,
+        marginLeft: 0,
+        paddingLeft: 0,
     },
     row: {
         display: 'flex',
         flexDirection: 'row',
+        '&:hover': {
+            backgroundColor: colors.second,
+        },
     },
     hidden: {
         display: 'none',
@@ -80,13 +93,19 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
 
     const type = defineNodeType(tree, current, isOpen);
 
-    return <div className={style.tree}>
+    return <div className={`${style.tree} ${ path.length < 2 ? style.rootNode : ''}`}>
         <div className={style.row} data-type={recordType}>
-            <div onClick={() => setIsOpen(!isOpen)}>
+            <div className={style.closeStatusIcon} onClick={() => {
+                setIsOpen(!isOpen)
+            }}>
                 {openCloseIcons[type]}
             </div>
             <div onClick={() => {
-                dispatch(getValueAction(path.join(':'), recordType))
+                if (recordType !== 'none') {
+                    dispatch(getValueAction(path.join(':'), recordType))
+                } else {
+                    setIsOpen(!isOpen);
+                }
             }}>
                 {current} {typeIcons[recordType]}
             </div>

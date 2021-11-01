@@ -4,6 +4,8 @@ import { Row } from '../row';
 import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../../constants/colors';
 import { Split } from '../split';
+import { useDispatch } from 'react-redux';
+import { editorHashGetValue } from '../../actions/editor-hash';
 
 const useStyles = createUseStyles({
     fieldsMenu: {
@@ -19,20 +21,22 @@ const useStyles = createUseStyles({
 });
 
 export const HashEditor = () => {
-    const keys = useSelector(store => store.editors.editorHashReducer.fields);
+    const fields = useSelector(store => store.editors.editorHashReducer.fields);
     const styles = useStyles();
+    const value = useSelector(store => store.editors.editorHashReducer.value);
+    const dispatch = useDispatch();
 
     return <div className={styles.wrapper}>
         <Row>
             <Split>
                 <div className={styles.fieldsMenu}>
-                    {keys.map(key => {
-                        return <div>
-                            {key}
+                    {fields.map(field => {
+                        return <div onClick={() => dispatch(editorHashGetValue(field))} key={field}>
+                            {field}
                         </div>
                     })}
                 </div>
-                <div>editor</div>
+                <div>{value}</div>
             </Split>
         </Row>
     </div>;

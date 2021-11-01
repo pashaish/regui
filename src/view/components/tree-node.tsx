@@ -35,6 +35,7 @@ const useStyles = createUseStyles({
         fontSize: '10px',
         marginRight: '2px',
         marginLeft: '2px',
+        minWidth: '10px',
     },
     rootNode: {
         borderLeft: `1px solid transparent`,
@@ -113,23 +114,24 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const type = defineNodeType(tree, current, isOpen);
 
     return <div className={`${style.tree} ${ path.length < 2 ? style.rootNode : ''}`}>
-        <div className={style.row} data-type={recordType}>
-            <div className={style.closeStatusIcon} onClick={() => {
-                setIsOpen(!isOpen)
-            }}>
-                {openCloseIcons[type]}
-            </div>
-            <div className={style.keyPart} onClick={() => {
+        <div className={style.row} data-type={recordType} onClick={() => {
                 if (recordType !== 'none') {
                     dispatch(getValueAction(path.join(':'), recordType))
                 } else {
                     setIsOpen(!isOpen);
                 }
             }}>
-                {current}
+            <div className={style.closeStatusIcon} onClick={(e) => {
+                e.preventDefault();
+                setIsOpen(!isOpen)
+            }}>
+                {openCloseIcons[type]}
             </div>
             <div className={style.icon}>
                 {typeIcons[recordType]}
+            </div>
+            <div className={style.keyPart}>
+                {current}
             </div>
         </div>
         <div className={isOpen ? '' : style.hidden}>

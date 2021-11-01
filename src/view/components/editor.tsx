@@ -8,9 +8,10 @@ import { HashEditor } from './editor/hash';
 
 const useStyles = createUseStyles({
     editor: {
-        width: '100%',
+        width: `calc(100% - calc(${paddings.main} * 2))`,
         paddingTop: paddings.main,
         padding: paddings.main,
+        height: '100%',
     }
 });
 
@@ -29,7 +30,7 @@ export const Editor = () => {
     const styles = useStyles();
 
     return <div className={styles.editor}>
-        <Input value={currentKey} />
+        <Input readonly={true} value={currentKey} />
         {defineEditor(type)}
     </div>;
 }

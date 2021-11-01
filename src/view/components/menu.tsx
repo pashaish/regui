@@ -10,6 +10,8 @@ import { colors, paddings } from '../constants/colors';
 
 const useStyles = createUseStyles({
     menu: {
+        display: 'flex',
+        flexDirection: 'column',
         overflow: 'overlay',
         padding: paddings.main,
         backgroundColor: colors.first,
@@ -20,7 +22,8 @@ const useStyles = createUseStyles({
         paddingBottom: paddings.main,
     },
     tree: {
-
+        overflow: 'overlay',
+        height: '100%',
     },
 });
 

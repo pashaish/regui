@@ -11,13 +11,34 @@ const useStyles = createUseStyles({
         fontFamily: 'monospace',
         fontSize: '16px',
         color: colors.font,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
     }
 });
+
+let refRoot = React.createRef<HTMLDivElement>();
+
+export const toggleSelectionApp = (isSelection: boolean) => {
+    const { current } = refRoot;
+    if (current) {
+        current.style.userSelect = isSelection ? '' : 'none';
+    }
+}
+
+export const toggleCursorApp = (cursor: string) => {
+    const { current } = refRoot;
+    if (current) {
+        current.style.cursor = cursor;
+    }
+}
 
 export const App = () => {
     const styles = useStyles();
 
-    return <div className={styles.root}>
+    return <div ref={refRoot} className={styles.root}>
         <HashRouter>
             <Switch>
                 <Route path="/"><Viewer /></Route>

@@ -28,6 +28,7 @@ const useStyles = createUseStyles({
 interface IProps {
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     value?: string;
+    readonly?: boolean;
     placeholder?: string;
 }
 
@@ -36,6 +37,7 @@ export const Input = (props: IProps) => {
 
     return <div>
         <input
+            readOnly={props.readonly}
             placeholder={props.placeholder}
             className={styles.input}
             onChange={props.onChange}

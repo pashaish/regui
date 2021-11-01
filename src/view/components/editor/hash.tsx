@@ -7,10 +7,10 @@ import { Split } from '../split';
 
 const useStyles = createUseStyles({
     fieldsMenu: {
-        // borderRight: `1px solid ${colors.separator}`,
         padding: '8px',
         minWidth: '32px',
         height: '100%',
+        overflow: 'overlay',
         boxShadow: `4px 0px 5px -4px ${colors.separator}`,
     },
     wrapper: {

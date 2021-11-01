@@ -4,7 +4,8 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
     row: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: '100%',
     }
 });
 

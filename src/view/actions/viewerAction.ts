@@ -1,6 +1,7 @@
 import { ITreeNode } from '../../types/tree';
 import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
+import { editorHashGetFields } from './editor-hash';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
@@ -72,7 +73,8 @@ export function getValueAction(key: string, type: 'set'): Function
 export function getValueAction(key: string, type: 'string'): Function
 export function getValueAction(key: string, type: string): Function
 export function getValueAction(key: string, type: any): Function {
-    return (dispatch: Function) => {
+    return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
+        const state = getState();
         switch (type) {
             case 'string': 
                 redisClient.get(key).then((value: any) => {
@@ -89,11 +91,17 @@ export function getValueAction(key: string, type: any): Function {
                 });
                 break;
             case 'hash':
-                redisClient.hgetall(key).then((value: any) => {
-                    if (value) {
-                        dispatch(setValue(JSON.stringify(value), key, type));
-                    }
-                });
+                dispatch(setValue('', key, type));
+                dispatch(editorHashGetFields(key, state.editors.editorHashReducer.searchField));
+                // redisClient.hscanStream(key, {
+                //     count: 100,
+                //     match: 
+                // })
+                // redisClient.hgetall(key).then((value: any) => {
+                //     if (value) {
+                //         dispatch(setValue(JSON.stringify(value), key, type));
+                //     }
+                // });
                 break;
             case 'none': 
                 break;

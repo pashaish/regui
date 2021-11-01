@@ -2,6 +2,7 @@ import { ITreeNode } from '../../types/tree';
 import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
 import { editorHashGetFields } from './editor-hash';
+import { editorListGetValues } from './editor-list';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
@@ -84,24 +85,12 @@ export function getValueAction(key: string, type: any): Function {
                 });
                 break;
             case 'set':
-                redisClient.smembers(key).then((value: any) => {
-                    if(value) {
-                        dispatch(setValue(JSON.stringify(value), key, type));
-                    }
-                });
+                dispatch(setValue('', key, type));
+                dispatch(editorListGetValues());
                 break;
             case 'hash':
                 dispatch(setValue('', key, type));
                 dispatch(editorHashGetFields(key, state.editors.editorHashReducer.searchField));
-                // redisClient.hscanStream(key, {
-                //     count: 100,
-                //     match: 
-                // })
-                // redisClient.hgetall(key).then((value: any) => {
-                //     if (value) {
-                //         dispatch(setValue(JSON.stringify(value), key, type));
-                //     }
-                // });
                 break;
             case 'none': 
                 break;

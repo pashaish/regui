@@ -2,15 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from '../../reducers';
 import { Row } from '../row';
 import { createUseStyles } from 'react-jss';
-import { colors, paddings } from '../../constants/colors';
+import { colors } from '../../constants/colors';
 import { Split } from '../split';
 import { useDispatch } from 'react-redux';
 import { editorHashGetValue } from '../../actions/editor-hash';
-import ReactJson from 'react-json-view'
-import ReactAce from 'react-ace';
 
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-monokai";
+import { EditorArea } from '../editor-area';
 
 const useStyles = createUseStyles({
     fieldsMenu: {
@@ -38,13 +35,6 @@ export const HashEditor = () => {
     let value = useSelector(store => store.editors.editorHashReducer.value);
     const dispatch = useDispatch();
 
-    try {
-        const jsonValue = JSON.parse(value);
-        value = JSON.stringify(jsonValue, null, 2);
-    } catch (error) {
-        //
-    }
-
     return <div className={styles.wrapper}>
         <Row>
             <Split>
@@ -56,7 +46,7 @@ export const HashEditor = () => {
                     })}
                 </div>
                 <div className={styles.valueEditor}>
-                    <ReactAce height="95%" width="100%" wrapEnabled={true} showGutter={true} mode="json" theme="monokai" value={value} className={styles.ace} />
+                    <EditorArea value={value} />
                 </div>
             </Split>
         </Row>

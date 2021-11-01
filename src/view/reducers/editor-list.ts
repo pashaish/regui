@@ -1,5 +1,5 @@
 import { editorHashAction, EDITOR_HASH_SET_FIELDS, EDITOR_HASH_SET_VALUE } from "../actions/editor-hash";
-import { editorListAction, EDITOR_LIST_SET_INDEX, EDITOR_LIST_SET_VALUES } from "../actions/editor-list";
+import { editorListAction, EDITOR_LIST_CLEAR, EDITOR_LIST_SET_INDEX, EDITOR_LIST_SET_VALUES } from "../actions/editor-list";
 import { viewerAction } from "../actions/viewerAction";
 
 interface InitialState {
@@ -27,6 +27,9 @@ export const editorListReducer = (state = initialState, action: editorListAction
             ...state,
             currentIndex: action.payload.index,
             currentValue: state.values[action.payload.index]
+        }
+        case EDITOR_LIST_CLEAR: return {
+            ...initialState,
         }
         default: return state;
     }

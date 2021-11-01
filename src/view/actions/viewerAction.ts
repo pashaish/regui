@@ -1,8 +1,8 @@
 import { ITreeNode } from '../../types/tree';
 import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
-import { editorHashGetFields } from './editor-hash';
-import { editorListGetValues } from './editor-list';
+import { editorHashClear, editorHashGetFields } from './editor-hash';
+import { editorListClear, editorListGetValues } from './editor-list';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
@@ -70,6 +70,12 @@ export const setValue = (value: string, key: string, type: string) => {
     }
 }
 
+const clearValues = (dispatch: Function, key: string, type: string) => {
+    dispatch(setValue('', key, type));
+    dispatch(editorHashClear());
+    dispatch(editorListClear());
+}
+
 export function getValueAction(key: string, type: 'set'): Function
 export function getValueAction(key: string, type: 'string'): Function
 export function getValueAction(key: string, type: string): Function
@@ -80,19 +86,21 @@ export function getValueAction(key: string, type: any): Function {
             case 'string': 
                 redisClient.get(key).then((value: any) => {
                     if(value) {
+                        clearValues(dispatch, key, type);
                         dispatch(setValue(value, key, type));
                     }
                 });
                 break;
             case 'set':
-                dispatch(setValue('', key, type));
+                clearValues(dispatch, key, type);
                 dispatch(editorListGetValues());
                 break;
             case 'hash':
-                dispatch(setValue('', key, type));
+                clearValues(dispatch, key, type);
                 dispatch(editorHashGetFields(key, state.editors.editorHashReducer.searchField));
                 break;
-            case 'none': 
+            case 'none':
+                clearValues(dispatch, key, type);
                 break;
         }
     }

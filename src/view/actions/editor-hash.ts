@@ -1,9 +1,11 @@
 import _ from "lodash";
 import { redisClient } from "../../common";
 import { store } from "../reducers";
+import { EDITOR_LIST_CLEAR } from "./editor-list";
 
 export const EDITOR_HASH_SET_FIELDS = "EDITOR_HASH_SET_FIELDS";
 export const EDITOR_HASH_SET_VALUE = "EDITOR_HASH_SET_VALUE";
+export const EDITOR_HASH_CLEAR = "EDITOR_HASH_CLEAR";
 
 export const editorHashSetFields = (fields: string[]) => {
     return {
@@ -54,6 +56,13 @@ export const editorHashGetValue = (field: string) => {
     }
 }
 
+export const editorHashClear = () => {
+    return {
+        type: EDITOR_LIST_CLEAR as typeof EDITOR_LIST_CLEAR,
+    }
+}
+
 export type editorHashAction = 
     | ReturnType<typeof editorHashSetFields>
     | ReturnType<typeof editorHashSetValue>
+    | ReturnType<typeof editorHashClear>

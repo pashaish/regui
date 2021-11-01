@@ -1,9 +1,10 @@
 
 export const paddings = {
-    main: `3px`,
+    main: `6px`,
 }
 
 export const colors = {
+    // main: '#272727',
     main: '#232323',
     first: '#202020',
     separator: '#121212',

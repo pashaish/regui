@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
-import { Menu } from "./menu";
-import { FaList, FaCrow, FaFont, FaListAlt } from 'react-icons/fa';
+import { FaList, FaFont, FaListAlt, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -14,6 +13,7 @@ const useStyles = createUseStyles({
         justifyContent: 'center',
         fontSize: `8px`,
         padding: `4px`,
+        opacity: '0.5',
     },
     keyPart: {
         alignItems: 'center',
@@ -25,9 +25,14 @@ const useStyles = createUseStyles({
         marginLeft: '6px',
         userSelect: 'none',
         cursor: 'pointer',
-        borderLeft: `1px solid ${colors.secondFont}`,
+        borderLeft: `1px solid ${colors.secondFont + '50'}`,
     },
     closeStatusIcon: {
+        display: 'flex',
+        opacity: '0.5',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '10px',
         marginRight: '2px',
         marginLeft: '2px',
     },
@@ -62,9 +67,9 @@ interface IProps {
 }
 
 const openCloseIcons = {
-    open: "-",
-    close: "+",
-    final: " ",
+    open: <FaChevronDown />,
+    close: <FaChevronRight />,
+    final: <>&nbsp;</>,
 }
 
 const typeIcons: Record<string, string | JSX.Element> = {

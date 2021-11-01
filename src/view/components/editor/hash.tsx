@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from '../../reducers';
 import { Row } from '../row';
 import { createUseStyles } from 'react-jss';
@@ -7,7 +7,10 @@ import { Split } from '../split';
 import { useDispatch } from 'react-redux';
 import { editorHashGetValue } from '../../actions/editor-hash';
 import ReactJson from 'react-json-view'
+import ReactAce from 'react-ace';
 
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-monokai";
 
 const useStyles = createUseStyles({
     fieldsMenu: {
@@ -16,6 +19,9 @@ const useStyles = createUseStyles({
         height: '100%',
         overflow: 'overlay',
         boxShadow: `4px 0px 5px -4px ${colors.separator}`,
+    },
+    ace: {
+        backgroundColor: 'transparent',
     },
     valueEditor: {
         overflow: 'overlay',
@@ -29,13 +35,14 @@ const useStyles = createUseStyles({
 export const HashEditor = () => {
     const fields = useSelector(store => store.editors.editorHashReducer.fields);
     const styles = useStyles();
-    const value = useSelector(store => store.editors.editorHashReducer.value);
+    let value = useSelector(store => store.editors.editorHashReducer.value);
     const dispatch = useDispatch();
-    let jsonValue: object | null;
+
     try {
-        jsonValue = JSON.parse(value);
+        const jsonValue = JSON.parse(value);
+        value = JSON.stringify(jsonValue, null, 2);
     } catch (error) {
-        jsonValue = null;
+        //
     }
 
     return <div className={styles.wrapper}>
@@ -49,11 +56,7 @@ export const HashEditor = () => {
                     })}
                 </div>
                 <div className={styles.valueEditor}>
-                    {
-                        jsonValue ?
-                            <ReactJson onEdit={() => {}} theme="twilight" style={{backgroundColor: 'transparent'}} src={jsonValue} /> :
-                            <div>{value}</div>
-                    }
+                    <ReactAce height="95%" width="100%" wrapEnabled={true} showGutter={true} mode="json" theme="monokai" value={value} className={styles.ace} />
                 </div>
             </Split>
         </Row>

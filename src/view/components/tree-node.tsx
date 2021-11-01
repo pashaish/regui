@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
-import { FaList, FaFont, FaListAlt, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { FaList, FaFont, FaListAlt, FaChevronDown, FaChevronRight, FaCaretDown, FaCaretRight } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     },
     tree: {
         paddingLeft: '2px',
-        marginLeft: '6px',
+        marginLeft: '5px',
         userSelect: 'none',
         cursor: 'pointer',
         borderLeft: `1px solid ${colors.secondFont + '50'}`,
@@ -32,10 +32,10 @@ const useStyles = createUseStyles({
         opacity: '0.5',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: '10px',
-        marginRight: '2px',
-        marginLeft: '2px',
-        minWidth: '10px',
+        fontSize: '12px',
+        // marginRight: '2px',
+        // marginLeft: '2px',
+        minWidth: '12px',
     },
     rootNode: {
         borderLeft: `1px solid transparent`,
@@ -68,8 +68,10 @@ interface IProps {
 }
 
 const openCloseIcons = {
-    open: <FaChevronDown />,
-    close: <FaChevronRight />,
+    open: <FaCaretDown />,
+    // open: <FaChevronDown />,
+    close: <FaCaretRight />,
+    // close: <FaChevronRight />,
     final: <>&nbsp;</>,
 }
 
@@ -123,6 +125,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             }}>
             <div className={style.closeStatusIcon} onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsOpen(!isOpen)
             }}>
                 {openCloseIcons[type]}

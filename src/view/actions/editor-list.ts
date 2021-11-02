@@ -18,7 +18,7 @@ export const editorListSetValues = (values: string[]) => {
 export const editorListGetValues = () => {
     return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
-        redisClient.smembers(state.viewerReducer.currentKey).then(values => {
+        redisClient.smembers(state.viewerReducer.key).then(values => {
             dispatch(editorListSetValues(values));
         });
     }

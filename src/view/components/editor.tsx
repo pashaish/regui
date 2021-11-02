@@ -5,7 +5,7 @@ import { Input } from './input';
 import { createUseStyles } from 'react-jss';
 import { paddings } from '../constants/colors';
 import { HashEditor } from './editor/hash';
-import { StringEditor } from './editor/string';
+import { SetEditor } from './editor/set';
 import { ListEditor } from './editor/list';
 
 const useStyles = createUseStyles({
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
 const defineEditor = (type: string) => {
     switch(type) {
         case 'hash': return <HashEditor />
-        case 'string': return <StringEditor />
+        case 'string': return <SetEditor />
         case 'set': return <ListEditor />
         default: return '';
     }
@@ -28,9 +28,8 @@ const defineEditor = (type: string) => {
 
 export const Editor = () => {
     type state = ReturnType<typeof store.getState>;
-    const value = useSelector<state, string>(state => state.viewerReducer.value);
-    const type = useSelector<state, string>(state => state.viewerReducer.valueType);
-    const currentKey = useSelector<state, string>(state => state.viewerReducer.currentKey);
+    const type = useSelector<state, string>(state => state.viewerReducer.type);
+    const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
     const styles = useStyles();
 
     return <div className={styles.editor}>

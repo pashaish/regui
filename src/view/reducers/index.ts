@@ -1,6 +1,7 @@
 import { viewerReducer } from './viewer';
 import { editorHashReducer } from './editor-hash';
 import { editorListReducer } from './editor-list';
+import { editorSetReducer } from './editor-set';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { useSelector as useSelectorDefault } from 'react-redux';
@@ -19,6 +20,7 @@ export const store = createStore(
         editors: combineReducers({
             editorHashReducer,
             editorListReducer,
+            editorSetReducer,
         })
     }),
     composeEnhancers(

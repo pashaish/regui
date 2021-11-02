@@ -9,19 +9,15 @@ export enum STATUS_LOADING_TREE {
 
 interface InitialState {
     searchField: string;
-    currentKey: string;
-    valueType: string;
-    statusLoadingTree: STATUS_LOADING_TREE;
+    key: string;
+    type: string;
     tree: ITreeNode;
-    value: string;
 }
 
 const initialState: InitialState = {
     searchField: '',
-    currentKey: '',
-    valueType: '',
-    value: '',
-    statusLoadingTree: STATUS_LOADING_TREE.REQUEST,
+    key: '',
+    type: '',
     tree: {},
 }
 
@@ -43,9 +39,8 @@ export const viewerReducer = (state = initialState, action: viewerAction): Initi
         }
         case VIEWER_SET_VALUE: return {
             ...state,
-            valueType: action.valueType,
-            value: action.value,
-            currentKey: action.currentKey,
+            type: action.valueType,
+            key: action.currentKey,
         }
         default: return state;
     }

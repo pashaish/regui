@@ -50,7 +50,7 @@ export const editorHashSetValue = (value: string, field: string) => {
 export const editorHashGetValue = (field: string) => {
     return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
-        redisClient.hget(state.viewerReducer.currentKey, field).then(value => {
+        redisClient.hget(state.viewerReducer.key, field).then(value => {
             dispatch(editorHashSetValue(value || '', field));
         });
     }

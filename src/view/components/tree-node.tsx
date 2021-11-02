@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
-import { FaList, FaFont, FaListAlt, FaCaretDown, FaCaretRight, FaRegCircle } from 'react-icons/fa';
+import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -75,9 +75,9 @@ const openCloseIcons = {
 
 const typeIcons: Record<string, string | JSX.Element> = {
     'set': <FaList />,
-    'string': <FaFont />,
-    'hash': <FaListAlt />,
-    'none': '',
+    'string': <FaGripLines />,
+    'hash': <FaBorderAll />,
+    'none': <FaFolder />,
 }
 
 const defineNodeType = (

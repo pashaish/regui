@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
         alignItems: 'center',
         height: '15px',
         fontSize: '10px',
+        margin: '4px',
         '& > *': {
             margin: paddings.second,
         }

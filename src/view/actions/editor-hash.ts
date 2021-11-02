@@ -1,11 +1,15 @@
 import _ from "lodash";
 import { redisClient } from "../../common";
+import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 import { store } from "../reducers";
 import { EDITOR_LIST_CLEAR } from "./editor-list";
+import { EDITOR_SET_VIEW_VALUE } from "./editor-set";
 
 export const EDITOR_HASH_SET_FIELDS = "EDITOR_HASH_SET_FIELDS";
 export const EDITOR_HASH_SET_VALUE = "EDITOR_HASH_SET_VALUE";
 export const EDITOR_HASH_CLEAR = "EDITOR_HASH_CLEAR";
+export const EDITOR_HASH_SET_VIEW_VALUE = "EDITOR_HASH_SET_VIEW_VALUE";
+export const EDITOR_HASH_STATUS = "EDITOR_HASH_STATUS";
 
 export const editorHashSetFields = (fields: string[]) => {
     return {
@@ -56,9 +60,42 @@ export const editorHashGetValue = (field: string) => {
     }
 }
 
+export const editorHashStatus = (status: loadingStatus) => {
+    return {
+        type: EDITOR_HASH_STATUS as typeof EDITOR_HASH_STATUS,
+        payload: {
+            status,
+        },
+    }
+}
+
+export const editorHashUpdate = () => {
+    return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
+        const state = getState();
+        dispatch(editorHashStatus(LOADING_STATUS.LOADING));
+        redisClient.hset(
+            state.viewerReducer.key,
+            [state.editors.editorHashReducer.currentField, state.editors.editorHashReducer.viewValue],
+        ).then((value) => {
+            dispatch(editorHashStatus(LOADING_STATUS.LOADED));
+        }).catch((err) => {
+            dispatch(editorHashStatus(LOADING_STATUS.ERROR));
+        });
+    }
+}
+
 export const editorHashClear = () => {
     return {
         type: EDITOR_LIST_CLEAR as typeof EDITOR_LIST_CLEAR,
+    }
+}
+
+export const editorHashSetViewValue = (value: string) => {
+    return {
+        type: EDITOR_SET_VIEW_VALUE as typeof EDITOR_SET_VIEW_VALUE,
+        payload: {
+            value,
+        }
     }
 }
 
@@ -66,3 +103,5 @@ export type editorHashAction =
     | ReturnType<typeof editorHashSetFields>
     | ReturnType<typeof editorHashSetValue>
     | ReturnType<typeof editorHashClear>
+    | ReturnType<typeof editorHashStatus>
+    | ReturnType<typeof editorHashSetViewValue>

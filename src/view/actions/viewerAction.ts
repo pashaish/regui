@@ -3,7 +3,6 @@ import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
 import { editorHashClear, editorHashGetFields } from './editor-hash';
 import { editorListClear, editorListGetValues } from './editor-list';
-import { editorSetReducer } from '../reducers/editor-set';
 import { editorSetGetValue } from './editor-set';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
@@ -37,9 +36,6 @@ export const getTreeAction = () => {
             if (findedKeys.length >= KEYS_LIMIT) {
                 stream.destroy();
             }
-        });
-        stream.on('end', () => {
-            console.log('end');
         });
     }
 };

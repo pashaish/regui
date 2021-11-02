@@ -5,17 +5,28 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '../../constants/colors';
 import { Split } from '../split';
 import { useDispatch } from 'react-redux';
-import { editorHashGetValue } from '../../actions/editor-hash';
+import { editorHashGetValue, editorHashSetViewValue, editorHashUpdate } from '../../actions/editor-hash';
 
 import { EditorArea } from '../editor-area';
+import { Button } from '../button';
 
 const useStyles = createUseStyles({
+    buttons: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    button: {
+        margin: '3px',
+    },
     fieldsMenu: {
         padding: '8px',
         minWidth: '32px',
         height: '100%',
         overflow: 'overlay',
         boxShadow: `4px 0px 5px -4px ${colors.separator}`,
+    },
+    spacer: {
+        margin: 'auto',
     },
     ace: {
         backgroundColor: 'transparent',
@@ -31,8 +42,9 @@ const useStyles = createUseStyles({
 
 export const HashEditor = () => {
     const fields = useSelector(store => store.editors.editorHashReducer.fields);
+    const field = useSelector(store => store.editors.editorHashReducer.currentField);
     const styles = useStyles();
-    let value = useSelector(store => store.editors.editorHashReducer.value);
+    const value = useSelector(store => store.editors.editorHashReducer.viewValue);
     const dispatch = useDispatch();
 
     return <div className={styles.wrapper}>
@@ -46,7 +58,16 @@ export const HashEditor = () => {
                     })}
                 </div>
                 <div className={styles.valueEditor}>
-                    <EditorArea value={value} />
+                    <div className={styles.buttons}>
+                        <div className={styles.spacer}></div>
+                        <Button className={styles.button} onClick={() => dispatch(editorHashUpdate())}>
+                            save
+                        </Button>
+                        <Button className={styles.button} onClick={() => dispatch(editorHashGetValue(field))}>
+                            refresh
+                        </Button>
+                    </div>
+                    <EditorArea value={value} onChange={(val) => dispatch(editorHashSetViewValue(val))} />
                 </div>
             </Split>
         </Row>

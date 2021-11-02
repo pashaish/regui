@@ -5,7 +5,6 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '../../constants/colors';
 import { Split } from '../split';
 import { useDispatch } from 'react-redux';
-import { editorHashGetValue } from '../../actions/editor-hash';
 
 import { EditorArea } from '../editor-area';
 import { editorListSetIndex } from '../../actions/editor-list';

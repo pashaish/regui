@@ -7,7 +7,8 @@ import { Split } from '../split';
 import { useDispatch } from 'react-redux';
 
 import { EditorArea } from '../editor-area';
-import { editorListSetIndex } from '../../actions/editor-list';
+import { editorListGetValues, editorListSetIndex, editorListSetViewValue, editorListUpdate } from '../../actions/editor-list';
+import { Button } from '../button';
 
 const useStyles = createUseStyles({
     fieldsMenu: {
@@ -27,12 +28,22 @@ const useStyles = createUseStyles({
     wrapper: {
         height: '100%'
     },
+    buttons: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    button: {
+        margin: '3px',
+    },
+    spacer: {
+        margin: 'auto',
+    },
 });
 
 export const ListEditor = () => {
     const values = useSelector(store => store.editors.editorListReducer.values);
     const styles = useStyles();
-    let currentValue = useSelector(store => store.editors.editorListReducer.currentValue);
+    const value = useSelector(store => store.editors.editorListReducer.viewValue);
     const dispatch = useDispatch();
 
     return <div className={styles.wrapper}>
@@ -46,7 +57,16 @@ export const ListEditor = () => {
                     })}
                 </div>
                 <div className={styles.valueEditor}>
-                    <EditorArea value={currentValue} />
+                    <div className={styles.buttons}>
+                        <div className={styles.spacer}></div>
+                        <Button className={styles.button} onClick={() => dispatch(editorListUpdate())}>
+                            save
+                        </Button>
+                        <Button className={styles.button} onClick={() => dispatch(editorListGetValues())}>
+                            refresh
+                        </Button>
+                    </div>
+                    <EditorArea value={value} onChange={(newValue) => dispatch(editorListSetViewValue(newValue))} />
                 </div>
             </Split>
         </Row>

@@ -11,19 +11,19 @@ import { EditorArea } from '../editor-area';
 import { Button } from '../button';
 
 const useStyles = createUseStyles({
-    buttons: {
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    button: {
-        margin: '3px',
-    },
     fieldsMenu: {
         padding: '8px',
         minWidth: '32px',
         height: '100%',
         overflow: 'overlay',
         boxShadow: `4px 0px 5px -4px ${colors.separator}`,
+    },
+    buttons: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    button: {
+        margin: '3px',
     },
     spacer: {
         margin: 'auto',

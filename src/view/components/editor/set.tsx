@@ -6,12 +6,15 @@ import { useSelector } from '../../reducers';
 import { EditorArea } from '../editor-area';
 import { createUseStyles } from 'react-jss';
 import { notify } from '../../app';
-import { colors } from '../../constants/colors';
+import { Button } from '../button';
 
 const useStyles = createUseStyles({
     buttons: {
         display: 'flex',
         flexDirection: 'row',
+    },
+    button: {
+        margin: '3px',
     },
     spacer: {
         margin: 'auto',
@@ -19,21 +22,6 @@ const useStyles = createUseStyles({
     setWrapper: {
         height: '100%',
     },
-    button: {
-        cursor: 'pointer',
-        userSelect: 'none',
-        padding: '3px',
-        margin: '3px',
-        border: `1px solid ${colors.second}`,
-        '&:hover': {
-            backgroundColor: colors.second,
-        },
-    },
-    refresh: {
-        cursor: 'pointer',
-        userSelect: 'none',
-        padding: '3px',
-    }
 });
 
 export const SetEditor = () => {
@@ -56,8 +44,12 @@ export const SetEditor = () => {
     return <div className={styles.setWrapper}>
         <div className={styles.buttons}>
             <div className={styles.spacer}></div>
-            <div className={styles.button} onClick={() => dispatch(editorSetUpdate(viewValue))}>save</div>
-            <div className={styles.button} onClick={() => dispatch(editorSetGetValue())}>refresh</div>
+            <Button className={styles.button} onClick={() => dispatch(editorSetUpdate(viewValue))}>
+                save
+            </Button>
+            <Button className={styles.button} onClick={() => dispatch(editorSetGetValue())}>
+                refresh
+            </Button>
         </div>
         <EditorArea value={viewValue} readonly={status !== LOADING_STATUS.NORMAL} onChange={(newValue) => {
             dispatch(editorSetSetViewValue(newValue))

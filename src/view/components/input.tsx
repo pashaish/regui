@@ -35,13 +35,11 @@ interface IProps {
 export const Input = (props: IProps) => {
     const styles = useStyles();
 
-    return <div>
-        <input
-            readOnly={props.readonly}
-            placeholder={props.placeholder}
-            className={styles.input}
-            onChange={props.onChange}
-            value={props.value}
-        ></input>
-    </div>;
+    return <input
+        readOnly={props.readonly}
+        placeholder={props.placeholder}
+        className={styles.input}
+        onChange={props.onChange}
+        value={props.value}
+    ></input>
 }

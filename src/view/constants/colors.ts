@@ -1,6 +1,7 @@
 
 export const paddings = {
     main: `6px`,
+    second: '3px',
 }
 
 export const colors = {

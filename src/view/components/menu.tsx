@@ -7,6 +7,7 @@ import { store } from '../reducers';
 import { changeSearchFieldAction, getTreeAction } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../constants/colors';
+import { Button } from './button';
 
 const useStyles = createUseStyles({
     menu: {
@@ -20,6 +21,22 @@ const useStyles = createUseStyles({
     },
     searchFieldWrapper: {
         paddingBottom: paddings.main,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '15px',
+        fontSize: '10px',
+        '& > *': {
+            margin: paddings.second,
+        }
+    },
+    spacer: {
+        margin: 'auto',
+    },
+    button: {
+        fontSize: '10px',
+        height: '100%'
     },
     tree: {
         overflow: 'overlay',
@@ -46,6 +63,10 @@ export const Menu = () => {
                 value={searchField}
                 placeholder='filter'
             />
+            <Button
+                className={styles.button}
+                onClick={() => dispatch(getTreeAction())}
+            >refresh</Button>
         </div>
         <div className={styles.tree}>
             {Object.keys(tree).map(key =>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
-import { FaList, FaFont, FaListAlt, FaChevronDown, FaChevronRight, FaCaretDown, FaCaretRight } from 'react-icons/fa';
+import { FaList, FaFont, FaListAlt, FaCaretDown, FaCaretRight, FaRegCircle } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -69,10 +69,8 @@ interface IProps {
 
 const openCloseIcons = {
     open: <FaCaretDown />,
-    // open: <FaChevronDown />,
     close: <FaCaretRight />,
-    // close: <FaChevronRight />,
-    final: <>&nbsp;</>,
+    final: <FaRegCircle style={{fontSize: '6px'}} />,
 }
 
 const typeIcons: Record<string, string | JSX.Element> = {

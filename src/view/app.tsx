@@ -4,6 +4,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import { Viewer } from './pages/viewer';
 import { createUseStyles } from 'react-jss';
 import { colors } from './constants/colors';
+import { notifyCreate } from './components/notify';
 
 const useStyles = createUseStyles({
     root: {
@@ -35,11 +36,14 @@ export const toggleCursorApp = (cursor: string) => {
     }
 }
 
+export const { NotifyContainer, notify } = notifyCreate();
+
 export const App = () => {
     const styles = useStyles();
 
     return <div ref={refRoot} className={styles.root}>
         <HashRouter>
+            <NotifyContainer />
             <Switch>
                 <Route path="/"><Viewer /></Route>
             </Switch>

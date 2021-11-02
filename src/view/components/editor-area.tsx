@@ -8,6 +8,7 @@ import "ace-builds/src-noconflict/theme-monokai";
 interface Props {
     value?: string;
     onChange?: (str: string) => void;
+    readonly?: boolean;
 }
 
 const useStyles = createUseStyles({
@@ -15,6 +16,7 @@ const useStyles = createUseStyles({
         backgroundColor: 'transparent',
     },
 });
+
 
 export const EditorArea = (props: Props) => {
     const styles = useStyles();
@@ -27,13 +29,15 @@ export const EditorArea = (props: Props) => {
     }
 
     return <ReactAce
+        placeholder="value"
+        readOnly={props.readonly}
         height="96.9%"
         width="100%"
         wrapEnabled={true}
         showGutter={true}
         mode="json"
         theme="monokai"
-        value={value || ''}
+        value={value}
         onChange={(e) => {
             if (props.onChange) {
                 let val = e;

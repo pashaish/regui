@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { createUseStyles } from 'react-jss';
+import { colors } from '../constants/colors';
 
 export interface Notify {
     text: string;
@@ -14,18 +16,39 @@ export interface NotifyParams {
     time?: number;
 }
 
+const useStyles = createUseStyles({
+    root: {
+        position: 'absolute',
+        right: '5px',
+        bottom: '5px',
+        zIndex: '3',
+    },
+    item: {
+        width: '250px',
+        minHeight: '30px',
+        backgroundColor: colors.second,
+        userSelect: 'none',
+        cursor: 'pointer',
+        padding: '5px',
+        color: colors.font,
+        borderRadius: '5px',
+        boxShadow: `0px 0px 12px -6px ${colors.separator}`
+    },
+});
+
 export const notifyCreate = () => {
     let singleNotifies: Notify[] = [];
     let singleSetNotifies: Function = () => {};
 
     const NotifyContainer = () => {
+        const styles = useStyles();
         const [notifies, setNotifies] = useState<Notify[]>(singleNotifies);
         singleNotifies = notifies;
         singleSetNotifies = setNotifies;
 
-        return <div>
+        return <div className={styles.root}>
             {notifies.filter(s => !s.toDelete).map((not) => {
-                return <div key={`${not.timestamp}${not.timestamp}${not.text}`}>
+                return <div className={styles.item} key={`${not.timestamp}${not.timestamp}${not.text}`} onClick={() => not.toDelete = true}>
                     {not.title}
                     {not.text}
                 </div>

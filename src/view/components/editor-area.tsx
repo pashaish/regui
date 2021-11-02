@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactAce from 'react-ace/lib/ace';
 import { createUseStyles } from 'react-jss';
 
@@ -22,11 +22,14 @@ export const EditorArea = (props: Props) => {
     const styles = useStyles();
 
     let value = props.value;
-    try {
-        value = JSON.stringify(JSON.parse(value || ''), null, 2)
-    } catch (error) {
-        //
-    }
+    // useEffect(() => {
+
+    // });
+    // try {
+    //     value = JSON.stringify(JSON.parse(value || ''), null, 2)
+    // } catch (error) {
+    //     //
+    // }
 
     return <ReactAce
         placeholder="value"
@@ -41,11 +44,11 @@ export const EditorArea = (props: Props) => {
         onChange={(e) => {
             if (props.onChange) {
                 let val = e;
-                try {
-                    val = JSON.stringify(JSON.parse(val || ''), null, 2);
-                } catch (error) {
-                    //
-                }
+                // try {
+                //     val = JSON.stringify(JSON.parse(val || ''), null, 2);
+                // } catch (error) {
+                //     //
+                // }
 
                 props.onChange(val);
             }

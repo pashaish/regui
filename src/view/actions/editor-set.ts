@@ -4,6 +4,7 @@ import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 import { store } from "../reducers";
 
 export const EDITOR_SET_SET_VALUE = "EDITOR_SET_SET_VALUE";
+export const EDITOR_SET_VIEW_VALUE = "EDITOR_SET_VIEW_VALUE";
 export const EDITOR_SET_CLEAR = "EDITOR_SET_CLEAR";
 export const EDITOR_SET_STATUS = "EDITOR_SET_STATUS";
 
@@ -53,7 +54,17 @@ export const editorSetUpdate = (value: string) => {
     }
 }
 
+export const editorSetSetViewValue = (value: string) => {
+    return {
+        type: EDITOR_SET_VIEW_VALUE as typeof EDITOR_SET_VIEW_VALUE,
+        payload: {
+            value,
+        },
+    }
+}
+
 export type editorSetAction = 
     | ReturnType<typeof editorSetSetValue>
     | ReturnType<typeof editorSetClear>
     | ReturnType<typeof editorSetStatus>
+    | ReturnType<typeof editorSetSetViewValue>

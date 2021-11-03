@@ -6,7 +6,7 @@ import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 interface InitialState {
     searchField: string;
     currentIndex: number;
-    values: string[];
+    values: [number, string][];
     value: string;
     viewValue: string;
     status: loadingStatus;
@@ -27,12 +27,11 @@ export const editorListReducer = (state = initialState, action: editorListAction
             ...state,
             values: action.payload.values,
         }
-        case EDITOR_LIST_SET_INDEX: return { // TODO: это не массив, это set уникальных значений
-                                             // нужно избавляться от индекса
+        case EDITOR_LIST_SET_INDEX: return {
             ...state,
             currentIndex: action.payload.index,
-            value: state.values[action.payload.index],
-            viewValue: state.values[action.payload.index],
+            value: state.values[action.payload.index][1],
+            viewValue: state.values[action.payload.index][1],
         }
         case EDITOR_LIST_CLEAR: return {
             ...initialState,

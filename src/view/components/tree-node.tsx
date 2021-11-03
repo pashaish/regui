@@ -74,7 +74,7 @@ const openCloseIcons = {
 }
 
 const typeIcons: Record<string, string | JSX.Element> = {
-    'set': <FaList />,
+    'list': <FaList />,
     'string': <FaGripLines />,
     'hash': <FaBorderAll />,
     'none': <FaFolder />,

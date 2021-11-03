@@ -43,16 +43,16 @@ const useStyles = createUseStyles({
 export const ListEditor = () => {
     const values = useSelector(store => store.editors.editorListReducer.values);
     const styles = useStyles();
-    const value = useSelector(store => store.editors.editorListReducer.viewValue);
+    const viewValue = useSelector(store => store.editors.editorListReducer.viewValue);
     const dispatch = useDispatch();
 
     return <div className={styles.wrapper}>
         <Row>
             <Split>
                 <div className={styles.fieldsMenu}>
-                    {values.map((value, index) => {
+                    {values.map(([index, value]) => {
                         return <div onClick={() => dispatch(editorListSetIndex(index))} key={value}>
-                            {value}
+                            <b>{index}</b> {value}
                         </div>
                     })}
                 </div>
@@ -66,7 +66,7 @@ export const ListEditor = () => {
                             refresh
                         </Button>
                     </div>
-                    <EditorArea value={value} onChange={(newValue) => dispatch(editorListSetViewValue(newValue))} />
+                    <EditorArea value={viewValue} onChange={(newValue) => dispatch(editorListSetViewValue(newValue))} />
                 </div>
             </Split>
         </Row>

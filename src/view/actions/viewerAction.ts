@@ -82,7 +82,7 @@ export function getValueAction(key: string, type: string): Function {
                 clearValues(dispatch, key, type);
                 dispatch(editorSetGetValue());
                 break;
-            case 'set':
+            case 'list':
                 clearValues(dispatch, key, type);
                 dispatch(editorListGetValues());
                 break;

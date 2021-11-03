@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { values } from "lodash";
 import { redisClient } from "../../common";
 import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 import { store } from "../reducers";
@@ -10,7 +10,7 @@ export const EDITOR_LIST_CLEAR = "EDITOR_LIST_CLEAR";
 export const EDITOR_LIST_SET_VIEW_VALUE = "EDITOR_LIST_SET_VIEW_VALUE";
 export const EDITOR_LIST_STATUS = "EDITOR_LIST_STATUS";
 
-export const editorListSetValues = (values: string[]) => {
+export const editorListSetValues = (values: [number, string][]) => {
     return {
         type: EDITOR_LIST_SET_VALUES as typeof EDITOR_LIST_SET_VALUES,
         payload: {
@@ -20,11 +20,26 @@ export const editorListSetValues = (values: string[]) => {
 }
 
 export const editorListGetValues = () => {
-    return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
+    return async (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
-        redisClient.smembers(state.viewerReducer.key).then(values => {
-            dispatch(editorListSetValues(values));
-        });
+
+        const limit = Math.min(500, await redisClient.llen(state.viewerReducer.key));
+        const limitPerOperation = 1;
+        const elements: [number, string][] = [];
+
+        for (let i = limit; i > 0; i = limit - elements.length) {
+            const values = await redisClient.lrange(state.viewerReducer.key, elements.length, (elements.length - 1) + limitPerOperation);
+
+            elements.push(
+                ...values.map((val, index) => [elements.length + index, val] as [number, string])
+            );
+
+            dispatch(editorListSetValues([...elements]));
+        }
+
+        const value = elements.find(e => e[0] === state.editors.editorListReducer.currentIndex)?.[1];
+        
+        dispatch(editorListSetViewValue(value || ''));
     }
 }
 
@@ -66,18 +81,15 @@ export const editorListUpdate = () => {
         const state = getState();
         dispatch(editorListStatus(LOADING_STATUS.LOADING));
 
-        redisClient.sadd(
+        redisClient.lset(
             state.viewerReducer.key,
+            state.editors.editorListReducer.currentIndex,
             state.editors.editorListReducer.viewValue,
         ).then(() => {
-            redisClient.srem(
-                state.viewerReducer.key,
-                state.editors.editorListReducer.value
-            ).then(() => {
-                dispatch(editorListStatus(LOADING_STATUS.LOADED));
-            }).catch(() => {
-                dispatch(editorListStatus(LOADING_STATUS.ERROR));
-            });
+            const pair = state.editors.editorListReducer.values.find(([index]) => index === state.editors.editorListReducer.currentIndex)!;
+            pair[1] = state.editors.editorListReducer.viewValue;
+            dispatch(editorListSetValues([...state.editors.editorListReducer.values]));
+            dispatch(editorListStatus(LOADING_STATUS.LOADED));
         }).catch((err) => {
             dispatch(editorListStatus(LOADING_STATUS.ERROR));
         });

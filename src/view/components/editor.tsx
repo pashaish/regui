@@ -21,7 +21,7 @@ const defineEditor = (type: string) => {
     switch(type) {
         case 'hash': return <HashEditor />
         case 'string': return <SetEditor />
-        case 'set': return <ListEditor />
+        case 'list': return <ListEditor />
         default: return '';
     }
 }

@@ -3,7 +3,7 @@ import { createTreeByKeys, redisClient } from '../../common'
 import { store } from '../reducers';
 import { editorHashClear, editorHashGetFields } from './editor-hash';
 import { editorListClear, editorListGetValues } from './editor-list';
-import { editorSetGetValue } from './editor-set';
+import { editorStringGetValue } from './editor-string';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
@@ -80,7 +80,7 @@ export function getValueAction(key: string, type: string): Function {
         switch (type) {
             case 'string':
                 clearValues(dispatch, key, type);
-                dispatch(editorSetGetValue());
+                dispatch(editorStringGetValue());
                 break;
             case 'list':
                 clearValues(dispatch, key, type);

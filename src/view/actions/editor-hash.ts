@@ -3,7 +3,7 @@ import { redisClient } from "../../common";
 import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 import { store } from "../reducers";
 import { EDITOR_LIST_CLEAR } from "./editor-list";
-import { EDITOR_SET_VIEW_VALUE } from "./editor-set";
+import { EDITOR_STRING_VIEW_VALUE } from "./editor-string";
 
 export const EDITOR_HASH_SET_FIELDS = "EDITOR_HASH_SET_FIELDS";
 export const EDITOR_HASH_SET_VALUE = "EDITOR_HASH_SET_VALUE";
@@ -92,7 +92,7 @@ export const editorHashClear = () => {
 
 export const editorHashSetViewValue = (value: string) => {
     return {
-        type: EDITOR_SET_VIEW_VALUE as typeof EDITOR_SET_VIEW_VALUE,
+        type: EDITOR_STRING_VIEW_VALUE as typeof EDITOR_STRING_VIEW_VALUE,
         payload: {
             value,
         }

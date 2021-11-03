@@ -1,6 +1,6 @@
 import { editorHashAction, EDITOR_HASH_SET_FIELDS, EDITOR_HASH_SET_VALUE, EDITOR_HASH_STATUS } from "../actions/editor-hash";
 import { EDITOR_LIST_CLEAR } from "../actions/editor-list";
-import { EDITOR_SET_VIEW_VALUE } from "../actions/editor-set";
+import { EDITOR_STRING_VIEW_VALUE } from "../actions/editor-string";
 import { viewerAction } from "../actions/viewerAction";
 import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 
@@ -41,7 +41,7 @@ export const editorHashReducer = (state = initialState, action: editorHashAction
             ...state,
             status: action.payload.status,
         }
-        case EDITOR_SET_VIEW_VALUE: return {
+        case EDITOR_STRING_VIEW_VALUE: return {
             ...state,
             viewValue: action.payload.value,
         }

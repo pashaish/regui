@@ -5,8 +5,9 @@ import { Input } from './input';
 import { createUseStyles } from 'react-jss';
 import { paddings } from '../constants/colors';
 import { HashEditor } from './editor/hash';
-import { SetEditor } from './editor/set';
+import { StringEditor } from './editor/string';
 import { ListEditor } from './editor/list';
+import { REDIS_TYPES } from '../constants/redis-types';
 
 const useStyles = createUseStyles({
     editor: {
@@ -19,9 +20,9 @@ const useStyles = createUseStyles({
 
 const defineEditor = (type: string) => {
     switch(type) {
-        case 'hash': return <HashEditor />
-        case 'string': return <SetEditor />
-        case 'list': return <ListEditor />
+        case REDIS_TYPES.HASH: return <HashEditor />
+        case REDIS_TYPES.STRING: return <StringEditor />
+        case REDIS_TYPES.LIST: return <ListEditor />
         default: return '';
     }
 }

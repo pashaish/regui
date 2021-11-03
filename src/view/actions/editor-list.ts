@@ -2,7 +2,7 @@ import _, { values } from "lodash";
 import { redisClient } from "../../common";
 import { loadingStatus, LOADING_STATUS } from "../constants/loading";
 import { store } from "../reducers";
-import { editorSetStatus } from "./editor-set";
+import { editorStringStatus } from "./editor-string";
 
 export const EDITOR_LIST_SET_VALUES = "EDITOR_LIST_SET_VALUES";
 export const EDITOR_LIST_SET_INDEX = "EDITOR_LIST_SET_INDEX";

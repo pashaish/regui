@@ -19,6 +19,7 @@ const useStyles = createUseStyles({
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'center',
+        whiteSpace: 'nowrap',
     },
     tree: {
         paddingLeft: '2px',

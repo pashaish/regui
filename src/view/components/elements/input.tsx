@@ -27,7 +27,10 @@ const useStyles = createUseStyles({
 
 interface IProps {
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onInput?: React.ChangeEventHandler<HTMLInputElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
     value?: string;
+    defaultValue?: string;
     readonly?: boolean;
     placeholder?: string;
 }
@@ -36,10 +39,13 @@ export const Input = (props: IProps) => {
     const styles = useStyles();
 
     return <input
+        onKeyDown={props.onKeyDown}
+        onInput={props.onInput}
         readOnly={props.readonly}
         placeholder={props.placeholder}
         className={styles.input}
         onChange={props.onChange}
+        defaultValue={props.defaultValue}
         value={props.value}
     ></input>
 }

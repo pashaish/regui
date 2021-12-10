@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { redisClient } from '../../common';
 import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { colors } from '../constants/colors';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { store } from '../reducers';
 import { ContextMenu } from './elements/context-menu';
+import { Input } from './elements/input';
 
 const useStyles = createUseStyles({
     icon: {
@@ -122,6 +123,8 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const type = defineNodeType(tree, current, isOpen);
     const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
     const fullCurrent = path.join(':');
+    const [isEditKey, setIsEditKey] = useState(false);
+    const [editValue, setEditValue] = useState('');
 
     return <><ContextMenuTrigger id={`tree-node-${fullCurrent}`}>
         <div className={`${style.tree} ${path.length < 2 ? style.rootNode : ''}`}>
@@ -142,9 +145,32 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                 <div className={style.icon}>
                     {typeIcons[recordType]}
                 </div>
-                <div className={style.keyPart}>
-                    {current}
-                </div>
+                {
+                    isEditKey ?
+                    <Input
+                        defaultValue={current}
+                        onBlur={() => setIsEditKey(false)}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        onKeyDown={async (e) => {
+                            if (e.key !== 'Enter') {
+                                return;
+                            }
+
+                            if ((await redisClient.keys(editValue)).length > 0) {
+                                return;
+                            }
+
+                            setIsEditKey(false);
+
+                            await redisClient.rename(current, editValue);
+                            dispatch(getTreeAction());
+                        }}
+                    ></Input>
+                    :
+                    <div className={style.keyPart}>
+                        {current}
+                    </div>
+                }
             </div>
             <div className={isOpen ? '' : style.hidden}>
                 {Object.keys(tree[current]).map((key, index) =>
@@ -161,10 +187,19 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
         </div>
     </ContextMenuTrigger>
         <ContextMenu id={`tree-node-${fullCurrent}`}>
-            <MenuItem onClick={() => {
-                redisClient.del(fullCurrent);
-                dispatch(getTreeAction());
-            }}>remove {current}</MenuItem>
+            {
+                recordType !== 'none' ?
+                <>
+                <MenuItem onClick={() => {
+                    setIsEditKey(true);
+                }}>rename {current}</MenuItem>
+                <MenuItem onClick={() => {
+                    redisClient.del(`${fullCurrent}`);
+                    dispatch(getTreeAction());
+                }}>remove {current}</MenuItem>
+                </>
+                : <></>
+            }
         </ContextMenu>
     </>
 }

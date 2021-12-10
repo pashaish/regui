@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { TreeNode } from './tree-node';
-import { Input } from './input';
+import { Input } from './elements/input';
 import { ITreeNode } from '../../types/tree';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../reducers';
 import { changeSearchFieldAction, getTreeAction } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../constants/colors';
-import { Button } from './button';
+import { Button } from './elements/button';
 import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles({

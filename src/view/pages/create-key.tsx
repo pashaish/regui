@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useDispatch } from 'react-redux';
 import { addKey } from '../actions/viewerAction';
-import { Button } from '../components/button';
-import { Input } from '../components/input';
-import { Row } from '../components/row';
-import { Select } from '../components/select';
+import { Button } from '../components/elements/button';
+import { Input } from '../components/elements/input';
+import { Row } from '../components/elements/row';
+import { Select } from '../components/elements/select';
 import { colors } from '../constants/colors';
 
 const useStyles = createUseStyles({

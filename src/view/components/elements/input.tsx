@@ -1,6 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 const padding = 3;
 const margin = 0;

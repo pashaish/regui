@@ -6,7 +6,7 @@ import { useSelector } from '../../reducers';
 import { EditorArea } from '../editor-area';
 import { createUseStyles } from 'react-jss';
 import { notify } from '../../app';
-import { Button } from '../button';
+import { Button } from '../elements/button';
 
 const useStyles = createUseStyles({
     buttons: {

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from '../../reducers';
-import { Row } from '../row';
+import { Row } from '../elements/row';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../../constants/colors';
-import { Split } from '../split';
+import { Split } from '../elements/split';
 import { useDispatch } from 'react-redux';
 
 import { EditorArea } from '../editor-area';
 import { editorListGetValues, editorListSetIndex, editorListSetViewValue, editorListUpdate } from '../../actions/editor-list';
-import { Button } from '../button';
+import { Button } from '../elements/button';
 
 const useStyles = createUseStyles({
     fieldsMenu: {

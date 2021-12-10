@@ -1,6 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 interface Props {
     children?: any;

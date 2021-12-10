@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { store } from '../reducers';
-import { Input } from './input';
+import { Input } from './elements/input';
 import { createUseStyles } from 'react-jss';
 import { paddings } from '../constants/colors';
 import { HashEditor } from './editor/hash';

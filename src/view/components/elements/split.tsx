@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { createUseStyles } from 'react-jss';
 import SplitPane from 'react-split-pane';
-import { toggleCursorApp, toggleSelectionApp } from '../app';
-import { colors } from '../constants/colors';
+import { toggleCursorApp, toggleSelectionApp } from '../../app';
+import { colors } from '../../constants/colors';
 
 interface Props {
     children: ReactElement[];

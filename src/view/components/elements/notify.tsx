@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 export interface Notify {
     text: string;

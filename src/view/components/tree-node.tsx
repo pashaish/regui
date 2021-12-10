@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
 import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getValueAction, setKey } from '../actions/viewerAction';
+import { getTreeAction, getValueAction, setKey } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
-import { ContextMenuTrigger, ContextMenu, MenuItem } from 'react-contextmenu';
+import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { store } from '../reducers';
+import { ContextMenu } from './elements/context-menu';
 
 const useStyles = createUseStyles({
     icon: {
@@ -122,7 +123,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
     const fullCurrent = path.join(':');
 
-    return <><ContextMenuTrigger id={current}>
+    return <><ContextMenuTrigger id={fullCurrent}>
         <div className={`${style.tree} ${path.length < 2 ? style.rootNode : ''}`}>
             <div className={`${style.row} ${currentKey === fullCurrent ? style.selected : ''}`} data-type={recordType} onClick={() => {
                 if (recordType !== 'none') {
@@ -134,7 +135,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                 <div className={`${style.closeStatusIcon}`} onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setIsOpen(!isOpen)
+                    setIsOpen(!isOpen);
                 }}>
                     {openCloseIcons[type]}
                 </div>
@@ -159,8 +160,11 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             </div>
         </div>
     </ContextMenuTrigger>
-        <ContextMenu id={current}>
-            <MenuItem>remove {current}</MenuItem>
+        <ContextMenu id={fullCurrent}>
+            <MenuItem onClick={() => {
+                redisClient.del(fullCurrent);
+                dispatch(getTreeAction());
+            }}>remove {current}</MenuItem>
         </ContextMenu>
     </>
 }

@@ -4,8 +4,9 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import { Viewer } from './pages/viewer';
 import { createUseStyles } from 'react-jss';
 import { colors } from './constants/colors';
-import { notifyCreate } from './components/notify';
+import { notifyCreate } from './components/elements/notify';
 import { CreateKey } from './pages/create-key';
+import { hideMenu } from 'react-contextmenu';
 
 const useStyles = createUseStyles({
     root: {
@@ -22,6 +23,12 @@ const useStyles = createUseStyles({
 });
 
 let refRoot = React.createRef<HTMLDivElement>();
+
+document.addEventListener('mouseup', (e) => {
+    if (e.button === 0) {
+        hideMenu();
+    }
+});
 
 export const toggleSelectionApp = (isSelection: boolean) => {
     const { current } = refRoot;

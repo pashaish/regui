@@ -123,7 +123,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
     const fullCurrent = path.join(':');
 
-    return <><ContextMenuTrigger id={fullCurrent}>
+    return <><ContextMenuTrigger id={`tree-node-${fullCurrent}`}>
         <div className={`${style.tree} ${path.length < 2 ? style.rootNode : ''}`}>
             <div className={`${style.row} ${currentKey === fullCurrent ? style.selected : ''}`} data-type={recordType} onClick={() => {
                 if (recordType !== 'none') {
@@ -160,7 +160,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             </div>
         </div>
     </ContextMenuTrigger>
-        <ContextMenu id={fullCurrent}>
+        <ContextMenu id={`tree-node-${fullCurrent}`}>
             <MenuItem onClick={() => {
                 redisClient.del(fullCurrent);
                 dispatch(getTreeAction());

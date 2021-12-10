@@ -5,10 +5,14 @@ import { createUseStyles } from 'react-jss';
 import { colors } from '../../constants/colors';
 import { Split } from '../elements/split';
 import { useDispatch } from 'react-redux';
-import { editorHashGetValue, editorHashSetViewValue, editorHashUpdate } from '../../actions/editor-hash';
+import { editorHashGetFields, editorHashGetValue, editorHashSetViewValue, editorHashUpdate } from '../../actions/editor-hash';
 
 import { EditorArea } from '../editor-area';
 import { Button } from '../elements/button';
+import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { ContextMenu } from '../elements/context-menu';
+import { redisClient } from '../../../common';
+import { getTreeAction } from '../../actions/viewerAction';
 
 const useStyles = createUseStyles({
     field: {
@@ -50,6 +54,7 @@ const useStyles = createUseStyles({
 export const HashEditor = () => {
     const fields = useSelector(store => store.editors.editorHashReducer.fields);
     const currentField = useSelector(store => store.editors.editorHashReducer.currentField);
+    const key = useSelector(store => store.viewerReducer.key);
     const styles = useStyles();
     const value = useSelector(store => store.editors.editorHashReducer.viewValue);
     const dispatch = useDispatch();
@@ -61,8 +66,23 @@ export const HashEditor = () => {
                 <Button>add</Button>
 
                     {fields.map(field => {
-                        return <div className={`${styles.field} ${currentField === field ? styles.selected : ''}`} onClick={() => dispatch(editorHashGetValue(field))} key={field}>
-                            {field}
+                        return <div key={field}>
+                            <ContextMenuTrigger id={`hash-editor-field-${field}`}>
+                                <div className={`${styles.field} ${currentField === field ? styles.selected : ''}`} onClick={() => dispatch(editorHashGetValue(field))} key={field}>
+                                    {field}
+                                </div>
+                            </ContextMenuTrigger>
+                            <ContextMenu id={`hash-editor-field-${field}`}>
+                                <MenuItem
+                                    onClick={() => {}}
+                                >rename</MenuItem>
+                                <MenuItem
+                                    onClick={async() => {
+                                        await redisClient.hdel(key, field);
+                                        dispatch(editorHashGetFields(key));
+                                    }}
+                                >remove</MenuItem>
+                            </ContextMenu>
                         </div>
                     })}
                 </div>

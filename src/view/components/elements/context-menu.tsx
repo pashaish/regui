@@ -11,13 +11,16 @@ interface Props {
 const useStyles = createUseStyles({
     menu: {
         display: 'flex',
+        flexDirection: 'column',
         userSelect: 'none',
         cursor: 'pointer',
         backgroundColor: colors.first,
-        padding: '5px',
         border: `1px solid ${colors.second}`,
         zIndex: 999,
-        '&:hover': {
+        '& [role="menuitem"]': {
+            padding: '2px',
+        },
+        '& [role="menuitem"]:hover': {
             backgroundColor: colors.second,
         },
     },

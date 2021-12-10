@@ -20,10 +20,10 @@ export const editorHashSetFields = (fields: string[]) => {
     }
 }
 
-export const editorHashGetFields = (key: string, fieldFilter: string) => {
+export const editorHashGetFields = (key: string, fieldFilter?: string) => {
     return (dispatch: Function) => {
         const limit = 500;
-        const filterField = `*${fieldFilter.trim()}*` || '*';
+        const filterField = fieldFilter ? `*${fieldFilter.trim()}*` : '*';
         const stream = redisClient.hscanStream(key, {
             count: 100,
             match: filterField,

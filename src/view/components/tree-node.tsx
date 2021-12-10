@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
 import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getValueAction, setValue } from '../actions/viewerAction';
+import { getValueAction, setKey } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
 import { ContextMenuTrigger, ContextMenu, MenuItem } from 'react-contextmenu';
@@ -120,17 +120,18 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
 
     const type = defineNodeType(tree, current, isOpen);
     const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
+    const fullCurrent = path.join(':');
 
     return <><ContextMenuTrigger id={current}>
-        <div className={`${style.tree} ${currentKey === current ? style.selected : ''} ${path.length < 2 ? style.rootNode : ''}`}>
-            <div className={style.row} data-type={recordType} onClick={() => {
+        <div className={`${style.tree} ${path.length < 2 ? style.rootNode : ''}`}>
+            <div className={`${style.row} ${currentKey === fullCurrent ? style.selected : ''}`} data-type={recordType} onClick={() => {
                 if (recordType !== 'none') {
                     dispatch(getValueAction(path.join(':'), recordType))
                 } else {
                     setIsOpen(!isOpen);
                 }
             }}>
-                <div className={style.closeStatusIcon} onClick={(e) => {
+                <div className={`${style.closeStatusIcon}`} onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     setIsOpen(!isOpen)

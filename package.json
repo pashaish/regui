@@ -60,6 +60,7 @@
     "@types/redis": "^2.8.32",
     "react": "^17.0.2",
     "react-ace": "^9.5.0",
+    "react-contextmenu": "^2.14.0",
     "react-icons": "^4.3.1"
   }
 }

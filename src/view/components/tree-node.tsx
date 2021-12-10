@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { redisClient } from '../../common';
 import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getValueAction, setValue } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
+import { ContextMenuTrigger, ContextMenu, MenuItem } from 'react-contextmenu';
+import { store } from '../reducers';
 
 const useStyles = createUseStyles({
     icon: {
@@ -27,6 +29,9 @@ const useStyles = createUseStyles({
         userSelect: 'none',
         cursor: 'pointer',
         borderLeft: `1px solid ${colors.secondFont + '50'}`,
+    },
+    selected: {
+        backgroundColor: colors.second,
     },
     closeStatusIcon: {
         display: 'flex',
@@ -71,7 +76,7 @@ interface IProps {
 const openCloseIcons = {
     open: <FaCaretDown />,
     close: <FaCaretRight />,
-    final: <FaRegCircle style={{fontSize: '6px'}} />,
+    final: <FaRegCircle style={{ fontSize: '6px' }} />,
 }
 
 const typeIcons: Record<string, string | JSX.Element> = {
@@ -98,6 +103,7 @@ const defineNodeType = (
 }
 
 export const TreeNode = ({ current, tree, path }: IProps) => {
+    type state = ReturnType<typeof store.getState>;
     const [isOpen, setIsOpen] = React.useState(false);
     const [recordType, setRecordType] = React.useState('none');
     const style = useStyles();
@@ -113,40 +119,47 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     }, [recordType]);
 
     const type = defineNodeType(tree, current, isOpen);
+    const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
 
-    return <div className={`${style.tree} ${ path.length < 2 ? style.rootNode : ''}`}>
-        <div className={style.row} data-type={recordType} onClick={() => {
+    return <><ContextMenuTrigger id={current}>
+        <div className={`${style.tree} ${currentKey === current ? style.selected : ''} ${path.length < 2 ? style.rootNode : ''}`}>
+            <div className={style.row} data-type={recordType} onClick={() => {
                 if (recordType !== 'none') {
                     dispatch(getValueAction(path.join(':'), recordType))
                 } else {
                     setIsOpen(!isOpen);
                 }
             }}>
-            <div className={style.closeStatusIcon} onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsOpen(!isOpen)
-            }}>
-                {openCloseIcons[type]}
-            </div>
-            <div className={style.icon}>
-                {typeIcons[recordType]}
-            </div>
-            <div className={style.keyPart}>
-                {current}
-            </div>
-        </div>
-        <div className={isOpen ? '' : style.hidden}>
-            {Object.keys(tree[current]).map((key, index) => 
-                <div key={key}>
-                    <TreeNode
-                        path={[...path, key]}
-                        key={[...path, key].join(':')}
-                        current={key}
-                        tree={tree[current] || {}}
-                    />
+                <div className={style.closeStatusIcon} onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsOpen(!isOpen)
+                }}>
+                    {openCloseIcons[type]}
                 </div>
-            )}
+                <div className={style.icon}>
+                    {typeIcons[recordType]}
+                </div>
+                <div className={style.keyPart}>
+                    {current}
+                </div>
+            </div>
+            <div className={isOpen ? '' : style.hidden}>
+                {Object.keys(tree[current]).map((key, index) =>
+                    <div key={key}>
+                        <TreeNode
+                            path={[...path, key]}
+                            key={[...path, key].join(':')}
+                            current={key}
+                            tree={tree[current] || {}}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
-    </div>
+    </ContextMenuTrigger>
+        <ContextMenu id={current}>
+            <MenuItem>remove {current}</MenuItem>
+        </ContextMenu>
+    </>
 }

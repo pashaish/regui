@@ -68,6 +68,10 @@ export const Menu = () => {
                 className={styles.button}
                 onClick={() => dispatch(getTreeAction())}
             >refresh</Button>
+            <Button
+                className={styles.button}
+                onClick={() => dispatch(getTreeAction())}
+            >add</Button>
         </div>
         <div className={styles.tree}>
             {Object.keys(tree).map(key =>

@@ -10,6 +10,7 @@ export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
 export const VIEWER_GET_TREE_STARTED = 'VIEWER_GET_TREE_LOADING';
 export const VIEWER_GET_TREE_FAIlURE = 'VIEWER_GET_TREE_PAYLOAD';
 export const VIEWER_SET_VALUE = 'VIEWER_SET_VALUE';
+export const ADD_KEY = 'ADD_KEY';
 
 export const KEYS_LIMIT = 500;
 
@@ -40,6 +41,33 @@ export const getTreeAction = () => {
     }
 };
 
+export const addKey = (key: string, typeValue: string) => {
+    return async (dispatch: Function, getState: Function) => {
+        const state = getState() as ReturnType<typeof store.getState>;
+
+        switch(typeValue) {
+            case 'string': {
+                await redisClient.set(key, '');
+                break;
+            }
+            case 'list': {
+                await redisClient.lpush(key, 'New item');
+                break;
+            }
+            case 'hash': {
+                await redisClient.hset(key, 'field', 'value');
+                break;
+            }
+            default: {
+                throw new Error('failed type define');
+            }
+        }
+
+        location.hash = '/';
+        dispatch(setValue(key,typeValue));
+    }
+}
+
 export const getTreeActionSuccess = (tree: ITreeNode) => {
     return {
         type: VIEWER_GET_TREE_SUCCESS as typeof VIEWER_GET_TREE_SUCCESS,
@@ -59,17 +87,24 @@ export const getTreeActionFailure = () => {
     }
 }
 
-export const setValue = (value: string, key: string, type: string) => {
+export const setValue = (key: string, type: string) => {
     return {
         type: VIEWER_SET_VALUE as typeof VIEWER_SET_VALUE,
         valueType: type,
         currentKey: key,
-        value
     }
 }
 
+// export const addKey = (key: string, typeValue: string) => {
+//     return {
+//         type: ADD_KEY as typeof ADD_KEY,
+//         key,
+//         typeValue,
+//     }
+// }
+
 const clearValues = (dispatch: Function, key: string, type: string) => {
-    dispatch(setValue('', key, type));
+    dispatch(setValue(key, type));
     dispatch(editorHashClear());
     dispatch(editorListClear());
 }
@@ -101,5 +136,6 @@ export type viewerAction =
     | ReturnType<typeof changeSearchFieldAction>
     | ReturnType<typeof getTreeActionSuccess>
     | ReturnType<typeof getTreeActionStarted>
+    | ReturnType<typeof getTreeActionFailure>
     | ReturnType<typeof setValue>
-    | ReturnType<typeof getTreeActionFailure>;
+    // | ReturnType<typeof addKey>;

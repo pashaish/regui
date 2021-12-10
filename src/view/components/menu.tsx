@@ -8,6 +8,7 @@ import { changeSearchFieldAction, getTreeAction } from '../actions/viewerAction'
 import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../constants/colors';
 import { Button } from './button';
+import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles({
     menu: {
@@ -68,10 +69,9 @@ export const Menu = () => {
                 className={styles.button}
                 onClick={() => dispatch(getTreeAction())}
             >refresh</Button>
-            <Button
-                className={styles.button}
-                onClick={() => dispatch(getTreeAction())}
-            >add</Button>
+            <Button className={styles.button} onClick={() => location.hash = 'add-key'}>
+                add
+            </Button>
         </div>
         <div className={styles.tree}>
             {Object.keys(tree).map(key =>

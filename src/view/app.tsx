@@ -5,6 +5,7 @@ import { Viewer } from './pages/viewer';
 import { createUseStyles } from 'react-jss';
 import { colors } from './constants/colors';
 import { notifyCreate } from './components/notify';
+import { CreateKey } from './pages/create-key';
 
 const useStyles = createUseStyles({
     root: {
@@ -45,7 +46,8 @@ export const App = () => {
         <HashRouter>
             <NotifyContainer />
             <Switch>
-                <Route path="/"><Viewer /></Route>
+                <Route exact path="/"><Viewer /></Route>
+                <Route path="/add-key"><CreateKey /></Route>
             </Switch>
         </HashRouter>
     </div>

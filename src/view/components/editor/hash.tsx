@@ -66,33 +66,47 @@ export const HashEditor = () => {
         <Row>
             <Split>
                 <div className={styles.fieldsMenu}>
-                <Button>add</Button>
+                <Button onClick={async () => {
+                    let ind = 0;
+                    while(await redisClient.hget(key, `new_field_${ind}`)) {
+                        ind++;
+                    }
+                    await redisClient.hset(key, `new_field_${ind}`, 'value');
+
+                    dispatch(editorHashGetFields(key));
+                }}>add</Button>
 
                     {fields.map((field, index) => {
                         return <div key={field}>
                             <ContextMenuTrigger id={`hash-editor-field-${field}`}>
                                 {editableFieldIndex === index ?
-                                    <Input defaultValue={field} onChange={(e) => setEditValue(e.target.value)} onKeyDown={async (e) => {
-                                        if (e.key !== "Enter") {
-                                            return;
-                                        }
+                                    <Input
+                                        defaultValue={field}
+                                        autoFocus={true}
+                                        onBlur={() => setEditableFieldIndex(-1)}
+                                        onChange={(e) => setEditValue(e.target.value)}
+                                    
+                                        onKeyDown={async (e) => {
+                                            if (e.key !== "Enter") {
+                                                return;
+                                            }
 
-                                        setEditableFieldIndex(-1);
+                                            setEditableFieldIndex(-1);
 
-                                        const value = await redisClient.hget(key, field);
-                                        if (!value) {
-                                            return;
-                                        }
+                                            const value = await redisClient.hget(key, field);
+                                            if (!value) {
+                                                return;
+                                            }
 
 
-                                        const isHsetValid = await redisClient.hset(key, editValue, value);
-                                        if (!isHsetValid) {
-                                            return;
-                                        }
+                                            const isHsetValid = await redisClient.hset(key, editValue, value);
+                                            if (!isHsetValid) {
+                                                return;
+                                            }
 
-                                        await redisClient.hdel(key, field);
+                                            await redisClient.hdel(key, field);
 
-                                        dispatch(editorHashGetFields(key));
+                                            dispatch(editorHashGetFields(key));
                                     }}></Input>
                                     :
                                     <div className={`${styles.field} ${currentField === field ? styles.selected : ''}`} onClick={() => {

@@ -12,8 +12,10 @@ import { REDIS_TYPES } from '../constants/redis-types';
 const useStyles = createUseStyles({
     editor: {
         width: `calc(100% - calc(${paddings.main} * 2))`,
-        paddingTop: paddings.main,
-        padding: paddings.main,
+        display: 'flex',
+        flexDirection: 'column',
+        // paddingTop: paddings.main,
+        // padding: paddings.main,
         height: '100%',
     }
 });

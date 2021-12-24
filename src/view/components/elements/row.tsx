@@ -6,6 +6,7 @@ const useStyles = createUseStyles({
         display: 'flex',
         flexDirection: 'row',
         height: '100%',
+        position: 'relative',
     }
 });
 

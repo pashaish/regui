@@ -2,7 +2,6 @@ import Redis from 'ioredis';
 
 export const redisClient = new Redis();
 
-
 export function createTreeByKeys(keys: string[]) {
     const tree = {};
     for (const key of keys) {

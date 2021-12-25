@@ -14,6 +14,11 @@ import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 
 const useStyles = createUseStyles({
+    fieldsWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+    },
     fieldsMenu: {
         padding: '8px',
         minWidth: '32px',
@@ -54,30 +59,32 @@ export const ListEditor = () => {
     return <div className={styles.wrapper}>
         <Row>
             <Split>
-                <div className={styles.fieldsMenu}>
+                <div className={styles.fieldsWrapper}>
                     <Button onClick={async () => {
                         await redisClient.lpush(currentKey, 'new_value');
                         dispatch(editorListGetValues());
                     }}>
                         add
                     </Button>
-                    {values.map(([index, value]) => {
-                        return <div key={index + value}>
-                            <div onClick={() => dispatch(editorListSetIndex(index))} key={value}>
-                                <ContextMenuTrigger id={`hash-editor-field-${value}${index}`}>
-                                    <b>{index}</b> {value}
-                                </ContextMenuTrigger>
+                    <div className={styles.fieldsMenu}>
+                        {values.map(([index, value]) => {
+                            return <div key={index + value}>
+                                <div onClick={() => dispatch(editorListSetIndex(index))} key={value}>
+                                    <ContextMenuTrigger id={`hash-editor-field-${value}${index}`}>
+                                        <b>{index}</b> {value}
+                                    </ContextMenuTrigger>
+                                </div>
+                                <ContextMenu id={`hash-editor-field-${value}${index}`}>
+                                    <MenuItem
+                                        onClick={async () => {
+                                            await redisClient.lrem(currentKey, 1, value);
+                                            dispatch(editorListGetValues());
+                                        }}
+                                    >remove</MenuItem>
+                                </ContextMenu>
                             </div>
-                            <ContextMenu id={`hash-editor-field-${value}${index}`}>
-                                <MenuItem
-                                    onClick={async () => {
-                                        await redisClient.lrem(currentKey, 1, value);
-                                        dispatch(editorListGetValues());
-                                    }}
-                                >remove</MenuItem>
-                            </ContextMenu>
-                        </div>
-                    })}
+                        })}
+                    </div>
                 </div>
                 <div className={styles.valueEditor}>
                     <div className={styles.buttons}>

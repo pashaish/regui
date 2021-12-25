@@ -12,7 +12,6 @@ import { Button } from '../elements/button';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 import { redisClient } from '../../../common';
-import { getTreeAction } from '../../actions/viewerAction';
 import { Input } from '../elements/input';
 
 const useStyles = createUseStyles({

@@ -66,7 +66,7 @@ export const addKey = (key: string, typeValue: string) => {
 
         location.hash = '/';
         dispatch(getValueAction(key, typeValue))
-
+        dispatch(setKey(key, typeValue));
     }
 }
 

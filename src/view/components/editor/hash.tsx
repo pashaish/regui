@@ -78,6 +78,7 @@ export const HashEditor = () => {
                         await redisClient.hset(key, `new_field_${ind}`, 'value');
 
                         dispatch(editorHashGetFields(key));
+                        dispatch(editorHashGetValue(`new_field_${ind}`));
                     }}>add</Button>
                     <div className={styles.fieldsMenu}>
                         {fields.map((field, index) => {
@@ -114,7 +115,7 @@ export const HashEditor = () => {
                                             }}></Input>
                                         :
                                         <div className={`${styles.field} ${currentField === field ? styles.selected : ''}`} onClick={() => {
-                                            dispatch(editorHashGetValue(field))
+                                            dispatch(editorHashGetValue(field));
                                         }} key={field}>
                                             {field}
                                         </div>

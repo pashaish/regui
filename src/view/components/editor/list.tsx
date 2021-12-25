@@ -63,6 +63,8 @@ export const ListEditor = () => {
                     <Button onClick={async () => {
                         await redisClient.lpush(currentKey, 'new_value');
                         dispatch(editorListGetValues());
+
+                        dispatch(editorListSetIndex(0));
                     }}>
                         add
                     </Button>

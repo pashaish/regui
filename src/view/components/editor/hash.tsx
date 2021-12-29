@@ -13,6 +13,7 @@ import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 import { redisClient } from '../../../common';
 import { Input } from '../elements/input';
+import { List } from '../list';
 
 const useStyles = createUseStyles({
     fields: {
@@ -63,8 +64,11 @@ export const HashEditor = () => {
     const styles = useStyles();
     const value = useSelector(store => store.editors.editorHashReducer.viewValue);
     const dispatch = useDispatch();
-    const [editableFieldIndex, setEditableFieldIndex] = useState(-1);
-    const [editValue, setEditValue] = useState('');
+    let editValue = '';
+    const items = fields.map((f) => ({
+        value: f,
+        key: f,
+    }));
 
     return <div className={styles.wrapper}>
         <Row>
@@ -80,63 +84,35 @@ export const HashEditor = () => {
                         dispatch(editorHashGetFields(key));
                         dispatch(editorHashGetValue(`new_field_${ind}`));
                     }}>add</Button>
-                    <div className={styles.fieldsMenu}>
-                        {fields.map((field, index) => {
-                            return <div key={field}>
-                                <ContextMenuTrigger id={`hash-editor-field-${field}`}>
-                                    {editableFieldIndex === index ?
-                                        <Input
-                                            defaultValue={field}
-                                            autoFocus={true}
-                                            onBlur={() => setEditableFieldIndex(-1)}
-                                            onChange={(e) => setEditValue(e.target.value)}
+                    <List
+                        item={items.find((i) => i.value === currentField)}
+                        items={items}
+                        contextMenu={[
+                            {
+                                value: 'remove',
+                                onClick: async (item) => {
+                                    await redisClient.hdel(key, item.value);
+                                    dispatch(editorHashGetFields(key));
+                                }
+                            }
+                        ]}
+                        onChangeItem={(item) => {
+                            dispatch(editorHashGetValue(item.value));
+                        }}
+                        onKeyDownEditableInput={async (e, item) => {
+                            const isHsetValid = await redisClient.hset(key, editValue, value);
+                            if (!isHsetValid) {
+                                return;
+                            }
 
-                                            onKeyDown={async (e) => {
-                                                if (e.key !== "Enter") {
-                                                    return;
-                                                }
-
-                                                setEditableFieldIndex(-1);
-
-                                                const value = await redisClient.hget(key, field);
-                                                if (!value) {
-                                                    return;
-                                                }
-
-
-                                                const isHsetValid = await redisClient.hset(key, editValue, value);
-                                                if (!isHsetValid) {
-                                                    return;
-                                                }
-
-                                                await redisClient.hdel(key, field);
-
-                                                dispatch(editorHashGetFields(key));
-                                            }}></Input>
-                                        :
-                                        <div className={`${styles.field} ${currentField === field ? styles.selected : ''}`} onClick={() => {
-                                            dispatch(editorHashGetValue(field));
-                                        }} key={field}>
-                                            {field}
-                                        </div>
-                                    }
-                                </ContextMenuTrigger>
-                                <ContextMenu id={`hash-editor-field-${field}`}>
-                                    <MenuItem
-                                        onClick={() => {
-                                            setEditableFieldIndex(index);
-                                        }}
-                                    >rename</MenuItem>
-                                    <MenuItem
-                                        onClick={async () => {
-                                            await redisClient.hdel(key, field);
-                                            dispatch(editorHashGetFields(key));
-                                        }}
-                                    >remove</MenuItem>
-                                </ContextMenu>
-                            </div>
-                        })}
-                    </div>
+                            await redisClient.hdel(key, item.value);
+ 
+                            dispatch(editorHashGetFields(key));
+                        }}
+                        onEditValue={(value) => {
+                            editValue = value;
+                        }}
+                    />
                 </div>
                 <div className={styles.valueEditor}>
                     <div className={styles.buttons}>

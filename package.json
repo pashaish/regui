@@ -2,13 +2,26 @@
   "name": "regui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/dist/index.js",
   "scripts": {
     "test": "mocha -r ts-node/register 'src/**/*.test.ts'",
     "dev-server": "remotedev --port=8000",
+    "build": "electron-builder",
     "start-tsc": "NODE_ENV=development tsc -w & NODE_ENV=development electron -r ts-node/register ./dist/index.js",
     "start": "NODE_ENV=development tsc -w & NODE_ENV=development electron -r ts-node/register  ./dist/index.js"
   },
+  "build": {
+    "appId": "com.regui.app",
+    "extends": null,
+    "files": [
+      "dist/**/*",
+      "dist/index.js",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "dist/index.js"
+    }
+  },  
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -33,6 +46,7 @@
     "css-loader": "^5",
     "css-modules-typescript-loader": "^4.0.1",
     "electron": "^15.2.0",
+    "electron-builder": "^22.14.5",
     "electron-devtools-installer": "^3.2.0",
     "electron-reload": "^2.0.0-alpha.1",
     "ioredis": "^4.28.0",

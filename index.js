@@ -1,8 +1,5 @@
-import { app, BrowserWindow } from 'electron';
-import path from 'path';
-import reload from 'electron-reload';
-
-reload(path.resolve(__dirname, '../js'), {});
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
 async function createWindow() {
     const win = new BrowserWindow({
@@ -17,7 +14,7 @@ async function createWindow() {
         },
     });
 
-    win.loadFile(path.resolve(__dirname, '../index.html'));
+    win.loadFile(path.resolve(__dirname, './index.html'));
 }
 
 app.whenReady().then(async () => {

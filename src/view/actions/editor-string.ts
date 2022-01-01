@@ -20,7 +20,7 @@ export const editorStringSetValue = (value: string) => {
 export const editorStringGetValue = () => {
     return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
-        redisClient.get(state.viewerReducer.key).then(value => {
+        redisClient().get(state.viewerReducer.key).then(value => {
             dispatch(editorStringSetValue(value || ''));
         });
     }
@@ -46,7 +46,7 @@ export const editorStringUpdate = (value: string) => {
         const key = state.viewerReducer.key;
 
         dispatch(editorStringStatus(LOADING_STATUS.LOADING));
-        redisClient.set(key, value).then((status) => {
+        redisClient().set(key, value).then((status) => {
             dispatch(editorStringStatus(status === "OK" ? LOADING_STATUS.LOADED : LOADING_STATUS.ERROR));
         }).catch((e) => {
             dispatch(editorStringStatus(LOADING_STATUS.ERROR));

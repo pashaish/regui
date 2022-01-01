@@ -8,6 +8,8 @@ import { notifyCreate } from './components/elements/notify';
 import { CreateKey } from './pages/create-key';
 import { hideMenu } from 'react-contextmenu';
 import { Connections } from './pages/connections';
+import { ConnectionCreate } from './pages/connection-create';
+import { connectionID } from '../common';
 
 const useStyles = createUseStyles({
     root: {
@@ -47,8 +49,19 @@ export const toggleCursorApp = (cursor: string) => {
 
 export const { NotifyContainer, notify } = notifyCreate();
 
+const aviableRoutesWithoutConnections = [
+    '/connections',
+    '/connection-create'
+];
+
 export const App = () => {
     const styles = useStyles();
+
+    if (connectionID === -1) {
+        if (!aviableRoutesWithoutConnections.includes(location.hash)) {
+            location.hash = '/connections';
+        }
+    }
 
     return <div ref={refRoot} className={styles.root}>
         <HashRouter>
@@ -59,6 +72,9 @@ export const App = () => {
                 </Route>
                 <Route path="/connections">
                     <Connections />
+                </Route>
+                <Route path="/connection-create">
+                    <ConnectionCreate />
                 </Route>
                 <Route path="/add-key">
                     <CreateKey />

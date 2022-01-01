@@ -113,7 +113,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        redisClient.type(path.join(':')).then((type: any) => {
+        redisClient().type(path.join(':')).then((type: any) => {
             setRecordType(type);
         }).catch((err: any) => {
             setRecordType('none')
@@ -156,13 +156,13 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                                 return;
                             }
 
-                            if ((await redisClient.keys(editValue)).length > 0) {
+                            if ((await redisClient().keys(editValue)).length > 0) {
                                 return;
                             }
 
                             setIsEditKey(false);
 
-                            await redisClient.rename(current, editValue);
+                            await redisClient().rename(current, editValue);
                             dispatch(getTreeAction());
                         }}
                     ></Input>
@@ -194,7 +194,7 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                     setIsEditKey(true);
                 }}>rename {current}</MenuItem>
                 <MenuItem onClick={() => {
-                    redisClient.del(`${fullCurrent}`);
+                    redisClient().del(`${fullCurrent}`);
                     dispatch(getTreeAction());
                 }}>remove {current}</MenuItem>
                 </>

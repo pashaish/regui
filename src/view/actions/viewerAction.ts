@@ -27,7 +27,7 @@ export const getTreeAction = () => {
         const state = getState() as ReturnType<typeof store.getState>;
         const key = `*${state.viewerReducer.searchField.trim()}*` || '*';
         dispatch(getTreeActionStarted());
-        const stream = redisClient.scanStream({
+        const stream = redisClient().scanStream({
             count: 100,
             match: key,
         });
@@ -48,15 +48,15 @@ export const addKey = (key: string, typeValue: string) => {
 
         switch(typeValue) {
             case REDIS_TYPES.STRING: {
-                await redisClient.set(key, '');
+                await redisClient().set(key, '');
                 break;
             }
             case REDIS_TYPES.LIST: {
-                await redisClient.lpush(key, 'New item');
+                await redisClient().lpush(key, 'New item');
                 break;
             }
             case REDIS_TYPES.HASH: {
-                await redisClient.hset(key, 'field', 'value');
+                await redisClient().hset(key, 'field', 'value');
                 break;
             }
             default: {

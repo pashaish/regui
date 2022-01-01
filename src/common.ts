@@ -1,6 +1,13 @@
 import Redis from 'ioredis';
+import { LocalStorage } from 'node-localstorage';
 
-export const redisClient = new Redis();
+export let connectionID = -1;
+
+export const redisClient = () => {
+    // const ls = new LocalStorage('./auth');
+
+    return new Redis();
+};
 
 export function createTreeByKeys(keys: string[]) {
     const tree = {};

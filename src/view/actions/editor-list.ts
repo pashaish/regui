@@ -23,12 +23,12 @@ export const editorListGetValues = () => {
     return async (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
 
-        const limit = Math.min(500, await redisClient.llen(state.viewerReducer.key));
+        const limit = Math.min(500, await redisClient().llen(state.viewerReducer.key));
         const limitPerOperation = 1;
         const elements: [number, string][] = [];
 
         for (let i = limit; i > 0; i = limit - elements.length) {
-            const values = await redisClient.lrange(state.viewerReducer.key, elements.length, (elements.length - 1) + limitPerOperation);
+            const values = await redisClient().lrange(state.viewerReducer.key, elements.length, (elements.length - 1) + limitPerOperation);
 
             elements.push(
                 ...values.map((val, index) => [elements.length + index, val] as [number, string])
@@ -81,7 +81,7 @@ export const editorListUpdate = () => {
         const state = getState();
         dispatch(editorListStatus(LOADING_STATUS.LOADING));
 
-        redisClient.lset(
+        redisClient().lset(
             state.viewerReducer.key,
             state.editors.editorListReducer.currentIndex,
             state.editors.editorListReducer.viewValue,

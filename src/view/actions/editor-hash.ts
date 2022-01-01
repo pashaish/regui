@@ -24,7 +24,7 @@ export const editorHashGetFields = (key: string, fieldFilter?: string) => {
     return (dispatch: Function) => {
         const limit = 500;
         const filterField = fieldFilter ? `*${fieldFilter.trim()}*` : '*';
-        const stream = redisClient.hscanStream(key, {
+        const stream = redisClient().hscanStream(key, {
             count: 100,
             match: filterField,
         });
@@ -54,7 +54,7 @@ export const editorHashSetValue = (value: string, field: string) => {
 export const editorHashGetValue = (field: string) => {
     return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
-        redisClient.hget(state.viewerReducer.key, field).then(value => {
+        redisClient().hget(state.viewerReducer.key, field).then(value => {
             dispatch(editorHashSetValue(value || '', field));
         });
     }
@@ -73,7 +73,7 @@ export const editorHashUpdate = () => {
     return (dispatch: Function, getState: () => ReturnType<typeof store.getState>) => {
         const state = getState();
         dispatch(editorHashStatus(LOADING_STATUS.LOADING));
-        redisClient.hset(
+        redisClient().hset(
             state.viewerReducer.key,
             [state.editors.editorHashReducer.currentField, state.editors.editorHashReducer.viewValue],
         ).then((value) => {

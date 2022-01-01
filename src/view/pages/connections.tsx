@@ -1,12 +1,17 @@
-import React from 'react';
-import { Editor } from '../components/editor';
-import { Menu } from '../components/menu';
+import React, { useEffect } from 'react';
 import { Row } from '../components/elements/row';
-import { Split } from '../components/elements/split';
 import { Button } from '../components/elements/button';
+import { getConnections } from '../../storage/connections';
 
 export const Connections = () => {
-    return <Row>
-        <Button>add</Button>
-    </Row>
+    return <div>
+        <Button onClick={() => {
+            location.hash = '/connection-create';
+        }}>add</Button>
+        <Row>
+            {getConnections().map((conn: any) => {
+                return <div>{conn.host}</div>;
+            })}
+        </Row>
+    </div>
 }

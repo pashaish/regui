@@ -66,7 +66,7 @@ export const ListEditor = () => {
             <Split>
                 <div className={styles.fieldsWrapper}>
                     <Button onClick={async () => {
-                        await redisClient.lpush(currentKey, 'new_value');
+                        await redisClient().lpush(currentKey, 'new_value');
                         dispatch(editorListGetValues());
 
                         dispatch(editorListSetIndex(0));
@@ -81,7 +81,7 @@ export const ListEditor = () => {
                             {
                                 value: 'remove',
                                 onClick: async (item) => {
-                                    await redisClient.lrem(currentKey, 1, item.value);
+                                    await redisClient().lrem(currentKey, 1, item.value);
                                     dispatch(editorListGetValues());
                                 }
                             }

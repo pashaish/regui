@@ -76,10 +76,10 @@ export const HashEditor = () => {
                 <div className={styles.fields}>
                     <Button onClick={async () => {
                         let ind = 0;
-                        while (await redisClient.hget(key, `new_field_${ind}`)) {
+                        while (await redisClient().hget(key, `new_field_${ind}`)) {
                             ind++;
                         }
-                        await redisClient.hset(key, `new_field_${ind}`, 'value');
+                        await redisClient().hset(key, `new_field_${ind}`, 'value');
 
                         dispatch(editorHashGetFields(key));
                         dispatch(editorHashGetValue(`new_field_${ind}`));
@@ -91,7 +91,7 @@ export const HashEditor = () => {
                             {
                                 value: 'remove',
                                 onClick: async (item) => {
-                                    await redisClient.hdel(key, item.value);
+                                    await redisClient().hdel(key, item.value);
                                     dispatch(editorHashGetFields(key));
                                 }
                             }
@@ -100,12 +100,12 @@ export const HashEditor = () => {
                             dispatch(editorHashGetValue(item.value));
                         }}
                         onKeyDownEditableInput={async (e, item) => {
-                            const isHsetValid = await redisClient.hset(key, editValue, value);
+                            const isHsetValid = await redisClient().hset(key, editValue, value);
                             if (!isHsetValid) {
                                 return;
                             }
 
-                            await redisClient.hdel(key, item.value);
+                            await redisClient().hdel(key, item.value);
  
                             dispatch(editorHashGetFields(key));
                         }}

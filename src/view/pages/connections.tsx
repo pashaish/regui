@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Row } from '../components/elements/row';
 import { Button } from '../components/elements/button';
-import { Connection, getConnections, setActiveConnection } from '../../storage/connections';
+import { Connection, getConnections, removeConnection, setActiveConnection } from '../../storage/connections';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -43,13 +43,14 @@ function connect(conn: Connection) {
 export const Connections = () => {
     const styles = useStyles();
     const history = useHistory();
+    const [connections, setConnections] = React.useState(getConnections());
 
     return <div className={styles.list}>
         <Button onClick={() => {
             location.hash = '/connection-create';
         }}>add</Button>
         <div>
-            {getConnections().map((conn, index: number) => {
+            {connections.map((conn, index: number) => {
                 return <div key={JSON.stringify(conn) + index} className={styles.conn}>
                     <ContextMenuTrigger id={`connection-context-${index}`}>
                         <div onClick={() => connect(conn)}>
@@ -71,6 +72,12 @@ export const Connections = () => {
                                 }
                             });
                         }}>edit</MenuItem>
+                        <MenuItem onClick={() => {
+                            removeConnection(index);
+                            setConnections(getConnections());
+                        }}>
+                            remove
+                        </MenuItem>
                     </ContextMenu>
                 </div>
             })}

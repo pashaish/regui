@@ -7,6 +7,7 @@ import { colors } from './constants/colors';
 import { notifyCreate } from './components/elements/notify';
 import { CreateKey } from './pages/create-key';
 import { hideMenu } from 'react-contextmenu';
+import { Connections } from './pages/connections';
 
 const useStyles = createUseStyles({
     root: {
@@ -53,8 +54,15 @@ export const App = () => {
         <HashRouter>
             <NotifyContainer />
             <Switch>
-                <Route exact path="/"><Viewer /></Route>
-                <Route path="/add-key"><CreateKey /></Route>
+                <Route exact path="/">
+                    <Viewer />
+                </Route>
+                <Route path="/connections">
+                    <Connections />
+                </Route>
+                <Route path="/add-key">
+                    <CreateKey />
+                </Route>
             </Switch>
         </HashRouter>
     </div>

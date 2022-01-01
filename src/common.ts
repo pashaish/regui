@@ -4,7 +4,6 @@ import { LocalStorage } from 'node-localstorage';
 export let connectionID = -1;
 
 export const redisClient = () => {
-    // const ls = new LocalStorage('./auth');
 
     return new Redis();
 };

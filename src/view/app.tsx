@@ -8,8 +8,8 @@ import { notifyCreate } from './components/elements/notify';
 import { CreateKey } from './pages/create-key';
 import { hideMenu } from 'react-contextmenu';
 import { Connections } from './pages/connections';
-import { ConnectionCreate } from './pages/connection-create';
 import { connectionID } from '../common';
+import { ConnectionEdit } from './pages/connection-edit';
 
 const useStyles = createUseStyles({
     root: {
@@ -74,7 +74,10 @@ export const App = () => {
                     <Connections />
                 </Route>
                 <Route path="/connection-create">
-                    <ConnectionCreate />
+                <ConnectionEdit isCreate={true} />
+                </Route>
+                <Route path="/connection-edit">
+                    <ConnectionEdit isCreate={false} />
                 </Route>
                 <Route path="/add-key">
                     <CreateKey />

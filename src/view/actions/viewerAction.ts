@@ -7,6 +7,7 @@ import { editorStringGetValue } from './editor-string';
 import { REDIS_TYPES } from '../constants/redis-types';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
+export const VIEWER_CHANGE_RESET = 'VIEWER_CHANGE_RESET';
 export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
 export const VIEWER_GET_TREE_STARTED = 'VIEWER_GET_TREE_LOADING';
 export const VIEWER_GET_TREE_FAIlURE = 'VIEWER_GET_TREE_PAYLOAD';
@@ -14,6 +15,13 @@ export const VIEWER_SET_VALUE = 'VIEWER_SET_VALUE';
 export const ADD_KEY = 'ADD_KEY';
 
 export const KEYS_LIMIT = 500;
+
+export const viewerActionResetState = () => {
+    return {
+        type: VIEWER_CHANGE_RESET as typeof VIEWER_CHANGE_RESET,
+        payload: {},
+    }
+}
 
 export const changeSearchFieldAction = (value: string) => {
     return {
@@ -132,4 +140,5 @@ export type viewerAction =
     | ReturnType<typeof getTreeActionStarted>
     | ReturnType<typeof getTreeActionFailure>
     | ReturnType<typeof setKey>
+    | ReturnType<typeof viewerActionResetState>
     // | ReturnType<typeof addKey>;

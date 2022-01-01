@@ -35,6 +35,7 @@ const useStyles = createUseStyles({
 });
 
 function connect(conn: Connection) {
+    console.log(conn);
     setActiveConnection(conn);
     location.hash = '/'
 }
@@ -49,13 +50,15 @@ export const Connections = () => {
         }}>add</Button>
         <div>
             {getConnections().map((conn, index: number) => {
-                return <div className={styles.conn} onClick={() => connect(conn)}>
+                return <div key={JSON.stringify(conn) + index} className={styles.conn}>
                     <ContextMenuTrigger id={`connection-context-${index}`}>
-                        <div className={styles.connName}>
-                            {conn.name}
-                        </div>
-                        <div className={styles.connHost}>
-                            {conn.host}:{conn.port}
+                        <div onClick={() => connect(conn)}>
+                            <div className={styles.connName}>
+                                {conn.name}
+                            </div>
+                            <div className={styles.connHost}>
+                                {conn.host}:{conn.port}
+                            </div>
                         </div>
                     </ContextMenuTrigger>
                     <ContextMenu id={`connection-context-${index}`}>
@@ -69,7 +72,7 @@ export const Connections = () => {
                             });
                         }}>edit</MenuItem>
                     </ContextMenu>
-                </div>;
+                </div>
             })}
         </div>
     </div>

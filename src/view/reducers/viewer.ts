@@ -1,5 +1,5 @@
 import { ITreeNode } from "../../types/tree"
-import { viewerAction, VIEWER_CHANGE_SEARCH_FIELD, VIEWER_GET_TREE_STARTED, VIEWER_GET_TREE_FAIlURE, VIEWER_GET_TREE_SUCCESS, VIEWER_SET_VALUE, ADD_KEY } from "../actions/viewerAction";
+import { viewerAction, VIEWER_CHANGE_SEARCH_FIELD, VIEWER_GET_TREE_STARTED, VIEWER_GET_TREE_FAIlURE, VIEWER_GET_TREE_SUCCESS, VIEWER_SET_VALUE, ADD_KEY, VIEWER_CHANGE_RESET } from "../actions/viewerAction";
 
 export enum STATUS_LOADING_TREE {
     REQUEST,
@@ -23,6 +23,9 @@ const initialState: InitialState = {
 
 export const viewerReducer = (state = initialState, action: viewerAction): InitialState  => {
     switch(action.type) {
+        case VIEWER_CHANGE_RESET: return {
+            ...initialState,
+        }
         case VIEWER_CHANGE_SEARCH_FIELD: return {
             ...state,
             searchField: action.value,

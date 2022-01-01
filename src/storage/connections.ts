@@ -14,6 +14,10 @@ export function setActiveConnection(conn: Connection) {
     ls.setItem('active', JSON.stringify(conn));
 }
 
+export function deleteActiveConnection() {
+    ls.removeItem('active');
+}
+
 export function getActiveConnection(): Connection | null {
     const item = ls.getItem('active');
     if (!item) {

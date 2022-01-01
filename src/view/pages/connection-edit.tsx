@@ -6,7 +6,7 @@ import { createUseStyles } from 'react-jss';
 import { Row } from '../components/elements/row';
 import { addConnection, Connection, editConnection } from '../../storage/connections';
 import { useLocation } from 'react-router';
-import { RedisClient } from 'redis';
+import Redis from 'ioredis';
 import { notify } from '../app';
 
 const useStyles = createUseStyles({
@@ -67,26 +67,25 @@ export const ConnectionEdit = (props: Props) => {
     }
 
     async function onTest() {
-        const client = new RedisClient({
-            host,
+        const client = new Redis(Number(port), host, {
             password,
-            port: Number(port),
+            username,
+            retryStrategy: () => null,
         });
 
-        client.ping((err, res) => {
-            notify({
-                title: 'connection success',
-            });
+        const mess = await client.ping();
+        notify({
+            title: mess,
         });
 
-        client.end();
+        await client.disconnect();
     }
 
     return <div className={styles.list}>
         <Input placeholder='name' value={name} onChange={(e) => setname(e.target.value)} />
         <Input placeholder='host' value={host} onChange={(e) => sethost(e.target.value)} />
         <Input placeholder='port' value={port} onChange={(e) => setport(e.target.value)} />
-        {/* <Input placeholder='username' value={username} onChange={(e) => setusername(e.target.value)} /> */}
+        <Input placeholder='username' value={username} onChange={(e) => setusername(e.target.value)} />
         <Input placeholder='password' value={password} onChange={(e) => setpassword(e.target.value)} />
         <div className={styles.buttons}>
             <Button onClick={onTest}>test</Button>

@@ -9,6 +9,8 @@ import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../constants/colors';
 import { Button } from './elements/button';
 import { Link } from 'react-router-dom';
+import { deleteActiveConnection, setActiveConnection } from '../../storage/connections';
+import { redisClientDisconnect } from '../../common';
 
 const useStyles = createUseStyles({
     menu: {
@@ -82,6 +84,12 @@ export const Menu = () => {
                     tree={tree}
                 />
             )}
+        </div>
+        <div>
+            <Button onClick={() => {
+                redisClientDisconnect();
+                location.hash = '/connections';
+            }}>disconnect</Button>
         </div>
     </div>
 }

@@ -1,11 +1,40 @@
-import Redis from 'ioredis';
+import Redis, { Redis as RedisType } from 'ioredis';
 import { LocalStorage } from 'node-localstorage';
+import { deleteActiveConnection, getActiveConnection } from './storage/connections';
+import { viewerActionResetState } from './view/actions/viewerAction';
+import { store } from './view/reducers';
 
 export let connectionID = -1;
 
-export const redisClient = () => {
+let redis: RedisType | null = null;
 
-    return new Redis();
+export function redisClientDisconnect() {
+    if (redis) {
+        store.dispatch(viewerActionResetState());
+        redis.disconnect();
+        deleteActiveConnection();
+        redis = null;
+    }
+}
+
+export const redisClient = () => {
+    const conn = getActiveConnection();
+
+    if (redis !== null) {
+        return redis;
+    }
+
+    if (conn) {
+        redis = new Redis(conn.port, conn.host, {
+            username: conn.username || '',
+            password: conn.password || '',
+            retryStrategy: () => null,
+        });
+
+        return redis;
+    }
+
+    throw new Error('Redis not connected');
 };
 
 export function createTreeByKeys(keys: string[]) {

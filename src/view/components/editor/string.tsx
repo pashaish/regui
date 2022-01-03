@@ -7,6 +7,7 @@ import { EditorArea } from '../editor-area';
 import { createUseStyles } from 'react-jss';
 import { notify } from '../../app';
 import { Button } from '../elements/button';
+import { locale } from '../../locale';
 
 const useStyles = createUseStyles({
     buttons: {
@@ -33,7 +34,7 @@ export const StringEditor = () => {
     useEffect(() => {
         if (status === LOADING_STATUS.LOADED) {
             notify({
-                title: "saved",
+                title: locale().common.saved,
                 time: 2000
             });
             dispatch(editorStringStatus(LOADING_STATUS.NORMAL));
@@ -45,10 +46,10 @@ export const StringEditor = () => {
         <div className={styles.buttons}>
             <div className={styles.spacer}></div>
             <Button className={styles.button} onClick={() => dispatch(editorStringUpdate(viewValue))}>
-                save
+                {locale().common.save}
             </Button>
             <Button className={styles.button} onClick={() => dispatch(editorStringGetValue())}>
-                refresh
+                {locale().common.refresh}
             </Button>
         </div>
         <EditorArea value={viewValue} readonly={status !== LOADING_STATUS.NORMAL} onChange={(newValue) => {

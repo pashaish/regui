@@ -11,6 +11,7 @@ import { Button } from './elements/button';
 import { Link } from 'react-router-dom';
 import { deleteActiveConnection, setActiveConnection } from '../../storage/connections';
 import { redisClientDisconnect } from '../../common';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     menu: {
@@ -53,7 +54,7 @@ export const Menu = () => {
     const searchField = useSelector<state, string>((state) => state.viewerReducer.searchField);
     const tree = useSelector<state, ITreeNode>((state) => state.viewerReducer.tree);
     const styles = useStyles();
-
+    const { common } = locale();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -70,9 +71,9 @@ export const Menu = () => {
             <Button
                 className={styles.button}
                 onClick={() => dispatch(getTreeAction())}
-            >refresh</Button>
+            >{common.refresh}</Button>
             <Button className={styles.button} onClick={() => location.hash = 'add-key'}>
-                add
+                {common.add}
             </Button>
         </div>
         <div className={styles.tree}>
@@ -89,7 +90,7 @@ export const Menu = () => {
             <Button onClick={() => {
                 redisClientDisconnect();
                 location.hash = '/connections';
-            }}>disconnect</Button>
+            }}>{common.disconnect}</Button>
         </div>
     </div>
 }

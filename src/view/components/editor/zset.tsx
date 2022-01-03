@@ -14,6 +14,7 @@ import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 import { List } from '../list';
 import { Input } from '../elements/input';
+import { locale } from '../../locale';
 
 const useStyles = createUseStyles({
     fieldsWrapper: {
@@ -83,7 +84,7 @@ export const ZSetEditor = () => {
 
                         dispatch(editorZSetSetValue('new_value', '0'));
                     }}>
-                        add
+                        {locale().common.add}
                     </Button>
                     <List
                         item={items.find((i) => i.value === currentValue[1])}
@@ -91,7 +92,7 @@ export const ZSetEditor = () => {
                         onChangeItem={(item) => dispatch(editorZSetSetValue(item.value, item.mass))}
                         contextMenu={[
                             {
-                                value: 'remove',
+                                value: locale().common.remove,
                                 onClick: async (item) => {
                                     await redisClient().zrem(currentKey, item.value);
                                     dispatch(editorZSetGetValues(currentKey));
@@ -105,7 +106,7 @@ export const ZSetEditor = () => {
                         <Input
                             type="number"
                             className={styles.sizeInput}
-                            placeholder="mass"
+                            placeholder={locale().common.score}
                             value={viewValue[0].toString()}
                             onChange={(e) => {
                                 dispatch(editorZSetSetViewValue(viewValue[1], e.target.value))
@@ -113,10 +114,10 @@ export const ZSetEditor = () => {
                         />
                         <div className={styles.spacer}></div>
                         <Button className={styles.button} onClick={() => dispatch(editorZSetUpdate())}>
-                            save
+                            {locale().common.save}
                         </Button>
                         <Button className={styles.button} onClick={() => dispatch(editorZSetGetValues(currentKey))}>
-                            refresh
+                            {locale().common.refresh}
                         </Button>
                     </div>
                     <EditorArea value={viewValue[1]} onChange={(newValue) => dispatch(editorZSetSetViewValue(newValue, viewValue[0]))} />

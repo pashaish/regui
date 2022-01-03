@@ -14,6 +14,7 @@ import { ContextMenu } from '../elements/context-menu';
 import { redisClient } from '../../../common';
 import { Input } from '../elements/input';
 import { List } from '../list';
+import { locale } from '../../locale';
 
 const useStyles = createUseStyles({
     fields: {
@@ -83,13 +84,13 @@ export const HashEditor = () => {
 
                         dispatch(editorHashGetFields(key));
                         dispatch(editorHashGetValue(`new_field_${ind}`));
-                    }}>add</Button>
+                    }}>{locale().common.add}</Button>
                     <List
                         item={items.find((i) => i.value === currentField)}
                         items={items}
                         contextMenu={[
                             {
-                                value: 'remove',
+                                value: locale().common.remove,
                                 onClick: async (item) => {
                                     await redisClient().hdel(key, item.value);
                                     dispatch(editorHashGetFields(key));
@@ -118,10 +119,10 @@ export const HashEditor = () => {
                     <div className={styles.buttons}>
                         <div className={styles.spacer}></div>
                         <Button className={styles.button} onClick={() => dispatch(editorHashUpdate())}>
-                            save
+                            {locale().common.save}
                         </Button>
                         <Button className={styles.button} onClick={() => dispatch(editorHashGetValue(currentField))}>
-                            refresh
+                            {locale().common.refresh}
                         </Button>
                     </div>
                     <EditorArea value={value} onChange={(val) => dispatch(editorHashSetViewValue(val))} />

@@ -9,6 +9,7 @@ import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { store } from '../reducers';
 import { ContextMenu } from './elements/context-menu';
 import { Input } from './elements/input';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     icon: {
@@ -193,11 +194,11 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                 <>
                 <MenuItem onClick={() => {
                     setIsEditKey(true);
-                }}>rename {current}</MenuItem>
+                }}>{locale().common.rename}</MenuItem>
                 <MenuItem onClick={() => {
                     redisClient().del(`${fullCurrent}`);
                     dispatch(getTreeAction());
-                }}>remove {current}</MenuItem>
+                }}>{locale().common.remove}</MenuItem>
                 </>
                 : <></>
             }

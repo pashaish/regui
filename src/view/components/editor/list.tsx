@@ -13,6 +13,7 @@ import { redisClient } from '../../../common';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 import { List } from '../list';
+import { locale } from '../../locale';
 
 const useStyles = createUseStyles({
     fieldsWrapper: {
@@ -72,7 +73,7 @@ export const ListEditor = () => {
 
                         dispatch(editorListSetIndex(0));
                     }}>
-                        add
+                        {locale().common.add}
                     </Button>
                     <List
                         item={items.find((i) => i.key === currentIndex.toString())}
@@ -80,7 +81,7 @@ export const ListEditor = () => {
                         onChangeItem={(item) => dispatch(editorListSetIndex(Number(item.key)))}
                         contextMenu={[
                             {
-                                value: 'remove',
+                                value: locale().common.remove,
                                 onClick: async (item) => {
                                     await redisClient().lrem(currentKey, 1, item.value);
                                     dispatch(editorListGetValues());
@@ -93,10 +94,10 @@ export const ListEditor = () => {
                     <div className={styles.buttons}>
                         <div className={styles.spacer}></div>
                         <Button className={styles.button} onClick={() => dispatch(editorListUpdate())}>
-                            save
+                            {locale().common.save}
                         </Button>
                         <Button className={styles.button} onClick={() => dispatch(editorListGetValues())}>
-                            refresh
+                            {locale().common.refresh}
                         </Button>
                     </div>
                     <EditorArea value={viewValue} onChange={(newValue) => dispatch(editorListSetViewValue(newValue))} />

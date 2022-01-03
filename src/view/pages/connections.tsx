@@ -7,6 +7,7 @@ import { colors } from '../constants/colors';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../components/elements/context-menu';
 import { useHistory, useLocation } from 'react-router';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     list: {
@@ -47,7 +48,7 @@ export const Connections = () => {
     return <div className={styles.list}>
         <Button onClick={() => {
             location.hash = '/connection-create';
-        }}>add</Button>
+        }}>{locale().common.add}</Button>
         <div>
             {connections.map((conn, index: number) => {
                 return <div key={JSON.stringify(conn) + index} className={styles.conn}>
@@ -70,12 +71,12 @@ export const Connections = () => {
                                     conn,
                                 }
                             });
-                        }}>edit</MenuItem>
+                        }}>{locale().common.edit}</MenuItem>
                         <MenuItem onClick={() => {
                             removeConnection(index);
                             setConnections(getConnections());
                         }}>
-                            remove
+                            {locale().common.remove}
                         </MenuItem>
                     </ContextMenu>
                 </div>

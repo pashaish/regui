@@ -8,6 +8,7 @@ import { addConnection, Connection, editConnection } from '../../storage/connect
 import { useLocation } from 'react-router';
 import Redis from 'ioredis';
 import { notify } from '../app';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     list: {
@@ -75,7 +76,7 @@ export const ConnectionEdit = (props: Props) => {
 
         const mess = await client.ping();
         notify({
-            title: 'successful connection',
+            title: locale().common.successful_connection,
         });
 
         await client.disconnect();
@@ -88,9 +89,9 @@ export const ConnectionEdit = (props: Props) => {
         <Input placeholder='username' value={username} onChange={(e) => setusername(e.target.value)} />
         <Input placeholder='password' value={password} onChange={(e) => setpassword(e.target.value)} />
         <div className={styles.buttons}>
-            <Button onClick={onTest}>test</Button>
-            <Button onClick={onEdit}>{props.isCreate ? 'create' : 'save'}</Button>
-            <Button onClick={() => location.hash = '/connections'}>cancel</Button>
+            <Button onClick={onTest}>{locale().common.test}</Button>
+            <Button onClick={onEdit}>{props.isCreate ? locale().common.create : locale().common.save}</Button>
+            <Button onClick={() => location.hash = '/connections'}>{locale().common.cancel}</Button>
         </div>
     </div>
 }

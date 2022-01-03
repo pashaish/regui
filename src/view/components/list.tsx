@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { createUseStyles } from 'react-jss';
 import { colors } from '../constants/colors';
+import { locale } from '../locale';
 import { ContextMenu } from './elements/context-menu';
 import { Input } from './elements/input';
 
@@ -113,7 +114,7 @@ export function List<T extends Item>(props: Props<T>) {
                         <MenuItem onClick={() => {
                             setEditableFieldIndex(index);
                         }}>
-                            rename
+                            {locale().common.rename}
                         </MenuItem>
                     :
                         <></>

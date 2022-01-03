@@ -14,6 +14,7 @@ import { Row } from './elements/row';
 import { Button } from './elements/button';
 import { viewerActionGetTTL, viewerActionSetTTL } from '../actions/viewerAction';
 import { redisClient } from '../../common';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     ttlInput: {
@@ -70,10 +71,10 @@ export const Editor = () => {
                     await redisClient().expire(currentKey, ttl);
                     dispatch(viewerActionGetTTL());
                 }
-            }}>save</Button>
+            }}>{locale().common.save}</Button>
             <Button onClick={() => {
                 dispatch(viewerActionGetTTL());
-            }}>refresh</Button>
+            }}>{locale().common.refresh}</Button>
         </div>
         {defineEditor(type)}
     </div>;

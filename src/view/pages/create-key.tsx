@@ -8,6 +8,7 @@ import { Row } from '../components/elements/row';
 import { Select } from '../components/elements/select';
 import { colors } from '../constants/colors';
 import { REDIS_TYPES } from '../constants/redis-types';
+import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     wrap: {
@@ -45,8 +46,8 @@ export const CreateKey = () => {
             </Select>
         </Row>
         <div className={styles.buttonsGroup}>
-            <Button onClick={() => onSave()}>save</Button>
-            <Button onClick={() => location.hash = '/'}>cancel</Button>
+            <Button onClick={() => onSave()}>{locale().common.save}</Button>
+            <Button onClick={() => location.hash = '/'}>{locale().common.cancel}</Button>
         </div>
     </div>
 }

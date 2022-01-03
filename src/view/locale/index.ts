@@ -4,6 +4,7 @@ import { rus } from './rus';
 
 export interface Locale {
     common: {
+        back: string;
         refresh: string;
         add: string;
         test: string;
@@ -18,7 +19,8 @@ export interface Locale {
         create: string;
         successful_connection: string;
     },
-    viewer: {
+    settings: {
+        select_lang: string;
     },
 }
 

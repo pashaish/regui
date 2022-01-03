@@ -4,6 +4,7 @@ export const eng: Locale = {
     common: {
         successful_connection: 'successful connection',
         disconnect: 'disconnect',
+        back: 'back',
         refresh: 'refresh',
         cancel: 'cancel',
         create: 'create',
@@ -16,5 +17,7 @@ export const eng: Locale = {
         edit: 'edit',
         add: 'add',
     },
-    viewer: {}
+    settings: {
+        select_lang: 'select language'
+    },
 }

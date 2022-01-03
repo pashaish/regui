@@ -4,7 +4,7 @@ const ls = new LocalStorage('./storage/settings');
 
 export function getSettings() {
     return {
-        locale: ls.getItem('ls') || 'eng',
+        locale: ls.getItem('locale') || 'eng',
     };
 }
 

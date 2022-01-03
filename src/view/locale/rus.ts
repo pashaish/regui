@@ -4,6 +4,7 @@ export const rus: Locale = {
     common: {
         successful_connection: 'Успешное соединение',
         disconnect: 'отключиться',
+        back: 'назад',
         refresh: 'обновить',
         cancel: 'отмена',
         remove: 'удалить',
@@ -16,5 +17,7 @@ export const rus: Locale = {
         edit: 'изменить',
         add: 'добавить',
     },
-    viewer: {}
+    settings: {
+        select_lang: 'выбрать язык'
+    },
 }

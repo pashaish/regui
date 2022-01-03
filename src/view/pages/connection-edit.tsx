@@ -75,7 +75,7 @@ export const ConnectionEdit = (props: Props) => {
 
         const mess = await client.ping();
         notify({
-            title: mess,
+            title: 'successful connection',
         });
 
         await client.disconnect();

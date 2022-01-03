@@ -7,19 +7,20 @@ import { Input } from './elements/input';
 
 interface Item {
     value: string;
+    viewValue?: string;
     key: string;
 }
 
-interface Props {
-    item?: Item;
-    items?: Item[];
+interface Props<T> {
+    item?: T;
+    items?: T[];
     contextMenu?: {
         value: string;
-        onClick: (item: Item) => void;
+        onClick: (item: T) => void;
     }[];
     onEditValue?: (value: string) => void;
-    onKeyDownEditableInput?: (e: React.KeyboardEvent<HTMLInputElement>, item: Item) => {}
-    onChangeItem?: (item: Item) => void;
+    onKeyDownEditableInput?: (e: React.KeyboardEvent<HTMLInputElement>, item: T) => {}
+    onChangeItem?: (item: T) => void;
 }
 
 
@@ -65,7 +66,7 @@ const useStyles = createUseStyles({
     },
 });
 
-export const List = (props: Props) => {
+export function List<T extends Item>(props: Props<T>) {
     const styles = useStyles();
     const [editableFieldIndex, setEditableFieldIndex] = useState(-1);
 
@@ -96,9 +97,9 @@ export const List = (props: Props) => {
                             onClick={() => {
                                 props.onChangeItem?.(item)
                             }}
-                            key={item.value}
+                            key={item.key}
                         >
-                            {item.value}
+                            {item.viewValue || item.value}
                         </div>
                     }
                 </ContextMenuTrigger>

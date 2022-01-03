@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from '../../reducers';
 import { Row } from '../elements/row';
 import { createUseStyles } from 'react-jss';
-import { colors } from '../../constants/colors';
+import { colors, paddings } from '../../constants/colors';
 import { Split } from '../elements/split';
 import { useDispatch } from 'react-redux';
 
@@ -17,6 +17,7 @@ import { List } from '../list';
 const useStyles = createUseStyles({
     fieldsWrapper: {
         display: 'flex',
+        padding: paddings.second,
         flexDirection: 'column',
         height: '100%',
     },

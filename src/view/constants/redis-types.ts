@@ -4,4 +4,5 @@ export const REDIS_TYPES = {
     STRING: 'string',
     LIST: 'list',
     SET: 'set',
+    ZSET: 'zset',
 }

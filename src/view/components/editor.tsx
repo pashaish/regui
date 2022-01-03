@@ -9,6 +9,7 @@ import { StringEditor } from './editor/string';
 import { ListEditor } from './editor/list';
 import { REDIS_TYPES } from '../constants/redis-types';
 import { SetEditor } from './editor/set';
+import { ZSetEditor } from './editor/zset';
 
 const useStyles = createUseStyles({
     editor: {
@@ -25,6 +26,7 @@ const defineEditor = (type: string) => {
         case REDIS_TYPES.STRING: return <StringEditor />
         case REDIS_TYPES.LIST: return <ListEditor />
         case REDIS_TYPES.SET: return <SetEditor />
+        case REDIS_TYPES.ZSET: return <ZSetEditor />
         default: return '';
     }
 }

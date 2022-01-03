@@ -7,19 +7,24 @@ import { Split } from '../elements/split';
 import { useDispatch } from 'react-redux';
 
 import { EditorArea } from '../editor-area';
-import { editorSetGetValues, editorSetSetValue, editorSetSetViewValue, editorSetUpdate } from '../../actions/editor-set';
+import { editorZSetGetValues, editorZSetSetValue, editorZSetSetViewValue, editorZSetUpdate } from '../../actions/editor-zset';
 import { Button } from '../elements/button';
 import { redisClient } from '../../../common';
 import { ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ContextMenu } from '../elements/context-menu';
 import { List } from '../list';
+import { Input } from '../elements/input';
 
 const useStyles = createUseStyles({
     fieldsWrapper: {
         display: 'flex',
-        padding: paddings.second,
         flexDirection: 'column',
         height: '100%',
+        padding: paddings.second,
+    },
+    sizeInput: {
+        width: '50px',
+        height: '16px',
     },
     fieldsMenu: {
         padding: '8px',
@@ -39,8 +44,12 @@ const useStyles = createUseStyles({
         height: '100%'
     },
     buttons: {
+        padding: `${paddings.second}`,
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '25px',
     },
     button: {
         margin: '3px',
@@ -50,16 +59,18 @@ const useStyles = createUseStyles({
     },
 });
 
-export const SetEditor = () => {
-    const values = useSelector(store => store.editors.editorSetReducer.values);
-    const currentValue = useSelector(store => store.editors.editorSetReducer.currentValue);
+export const ZSetEditor = () => {
+    const values = useSelector(store => store.editors.editorZSetReducer.values);
+    const currentValue = useSelector(store => store.editors.editorZSetReducer.currentValue);
     const styles = useStyles();
     const currentKey = useSelector(store => store.viewerReducer.key);
-    const viewValue = useSelector(store => store.editors.editorSetReducer.viewValue);
+    const viewValue = useSelector(store => store.editors.editorZSetReducer.viewValue);
     const dispatch = useDispatch();
-    const items = values.map((value) => ({
+    const items = values.map(([mass, value]) => ({
         value,
         key: value,
+        mass,
+        viewValue: `${mass} ${value}`,
     }));
 
     return <div className={styles.wrapper}>
@@ -67,39 +78,47 @@ export const SetEditor = () => {
             <Split>
                 <div className={styles.fieldsWrapper}>
                     <Button onClick={async () => {
-                        await redisClient().sadd(currentKey, 'new_value');
-                        dispatch(editorSetGetValues());
+                        await redisClient().zadd(currentKey, 0, 'new_value');
+                        dispatch(editorZSetGetValues(currentKey));
 
-                        dispatch(editorSetSetValue(''));
+                        dispatch(editorZSetSetValue('new_value', '0'));
                     }}>
                         add
                     </Button>
                     <List
-                        item={items.find((i) => i.value === currentValue.toString())}
+                        item={items.find((i) => i.value === currentValue[1])}
                         items={items}
-                        onChangeItem={(item) => dispatch(editorSetSetValue(item.value))}
+                        onChangeItem={(item) => dispatch(editorZSetSetValue(item.value, item.mass))}
                         contextMenu={[
                             {
                                 value: 'remove',
                                 onClick: async (item) => {
-                                    await redisClient().srem(currentKey, item.value);
-                                    dispatch(editorSetGetValues());
+                                    await redisClient().zrem(currentKey, item.value);
+                                    dispatch(editorZSetGetValues(currentKey));
                                 }
-                            }
+                            },
                         ]}
                     />
                 </div>
                 <div className={styles.valueEditor}>
                     <div className={styles.buttons}>
+                        <Input
+                            className={styles.sizeInput}
+                            placeholder="mass"
+                            value={viewValue[0].toString()}
+                            onChange={(e) => {
+                                dispatch(editorZSetSetViewValue(viewValue[1], e.target.value))
+                            }}
+                        />
                         <div className={styles.spacer}></div>
-                        <Button className={styles.button} onClick={() => dispatch(editorSetUpdate())}>
+                        <Button className={styles.button} onClick={() => dispatch(editorZSetUpdate())}>
                             save
                         </Button>
-                        <Button className={styles.button} onClick={() => dispatch(editorSetGetValues())}>
+                        <Button className={styles.button} onClick={() => dispatch(editorZSetGetValues(currentKey))}>
                             refresh
                         </Button>
                     </div>
-                    <EditorArea value={viewValue} onChange={(newValue) => dispatch(editorSetSetViewValue(newValue))} />
+                    <EditorArea value={viewValue[1]} onChange={(newValue) => dispatch(editorZSetSetViewValue(newValue, viewValue[0]))} />
                 </div>
             </Split>
         </Row>

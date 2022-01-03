@@ -35,7 +35,6 @@ const useStyles = createUseStyles({
 });
 
 function connect(conn: Connection) {
-    console.log(conn);
     setActiveConnection(conn);
     location.hash = '/'
 }

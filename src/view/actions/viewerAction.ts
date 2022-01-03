@@ -6,6 +6,7 @@ import { editorListClear, editorListGetValues } from './editor-list';
 import { editorStringGetValue } from './editor-string';
 import { REDIS_TYPES } from '../constants/redis-types';
 import { editorSetGetValues } from './editor-set';
+import { editorZSetGetValues } from './editor-zset';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_CHANGE_RESET = 'VIEWER_CHANGE_RESET';
@@ -70,6 +71,10 @@ export const addKey = (key: string, typeValue: string) => {
             }
             case REDIS_TYPES.SET: {
                 await redisClient().sadd(key, 'new_value');
+                break;
+            }
+            case REDIS_TYPES.ZSET: {
+                await redisClient().zadd(key, 0, 'new_value');
                 break;
             }
             default: {
@@ -138,6 +143,10 @@ export function getValueAction(key: string, type: string): Function {
             case 'set':
                 clearValues(dispatch, key, type);
                 dispatch(editorSetGetValues());
+                break;
+            case 'zset':
+                clearValues(dispatch, key, type);
+                dispatch(editorZSetGetValues(key, state.editors.editorZSetReducer.searchField));
                 break;
         }
     }

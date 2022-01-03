@@ -32,6 +32,7 @@ interface IProps {
     onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
     value?: string;
     defaultValue?: string;
+    className?: string;
     readonly?: boolean;
     placeholder?: string;
     autoFocus?: boolean;
@@ -47,7 +48,7 @@ export const Input = (props: IProps) => {
         onInput={props.onInput}
         readOnly={props.readonly}
         placeholder={props.placeholder}
-        className={styles.input}
+        className={`${styles.input} ${props.className}`}
         onChange={props.onChange}
         defaultValue={props.defaultValue}
         value={props.value}

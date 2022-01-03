@@ -4,8 +4,6 @@ import { deleteActiveConnection, getActiveConnection } from './storage/connectio
 import { viewerActionResetState } from './view/actions/viewerAction';
 import { store } from './view/reducers';
 
-export let connectionID = -1;
-
 let redis: RedisType | null = null;
 
 export function redisClientDisconnect() {

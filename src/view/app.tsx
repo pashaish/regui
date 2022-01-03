@@ -8,8 +8,8 @@ import { notifyCreate } from './components/elements/notify';
 import { CreateKey } from './pages/create-key';
 import { hideMenu } from 'react-contextmenu';
 import { Connections } from './pages/connections';
-import { connectionID } from '../common';
 import { ConnectionEdit } from './pages/connection-edit';
+import { getActiveConnection } from '../storage/connections';
 
 const useStyles = createUseStyles({
     root: {
@@ -57,10 +57,12 @@ const aviableRoutesWithoutConnections = [
 export const App = () => {
     const styles = useStyles();
 
-    if (connectionID === -1) {
-        if (!aviableRoutesWithoutConnections.includes(location.hash)) {
-            location.hash = '/connections';
-        }
+    const conn = getActiveConnection();
+
+    if (!conn && !aviableRoutesWithoutConnections.includes(location.hash)) {
+        location.hash = '/connections';
+    } else {
+        location.hash = '/';
     }
 
     return <div ref={refRoot} className={styles.root}>

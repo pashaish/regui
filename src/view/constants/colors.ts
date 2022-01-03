@@ -2,6 +2,7 @@
 export const paddings = {
     main: `6px`,
     second: '3px',
+    appbarHeight: '25px',
 }
 
 export const colors = {

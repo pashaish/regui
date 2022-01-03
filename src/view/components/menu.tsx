@@ -5,12 +5,12 @@ import { ITreeNode } from '../../types/tree';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../reducers';
 import { changeSearchFieldAction, getTreeAction } from '../actions/viewerAction';
-import { createUseStyles } from 'react-jss';
 import { colors, paddings } from '../constants/colors';
 import { Button } from './elements/button';
 import { Link } from 'react-router-dom';
 import { deleteActiveConnection, setActiveConnection } from '../../storage/connections';
 import { redisClientDisconnect } from '../../common';
+import { createUseStyles } from 'react-jss';
 import { locale } from '../locale';
 
 const useStyles = createUseStyles({
@@ -20,7 +20,8 @@ const useStyles = createUseStyles({
         overflow: 'overlay',
         padding: paddings.main,
         backgroundColor: colors.first,
-        height: `calc(100vh - calc(${paddings.main} + ${paddings.main}))`,
+        height: `100%`,
+        boxSizing: 'border-box',
         boxShadow: `0 0 6px -1px ${colors.separator}`,
     },
     searchFieldWrapper: {

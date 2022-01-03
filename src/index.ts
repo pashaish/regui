@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem } from 'electron';
 import path from 'path';
 import reload from 'electron-reload';
 
@@ -17,7 +17,11 @@ async function createWindow() {
         },
     });
 
-    win.loadFile(path.resolve(__dirname, '../index.html'));
+
+    
+    await win.loadFile(path.resolve(__dirname, '../index.html'));
+
+    // Menu.setApplicationMenu(Menu.buildFromTemplate([]));
 }
 
 app.whenReady().then(async () => {

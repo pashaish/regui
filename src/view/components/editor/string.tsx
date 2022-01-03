@@ -25,8 +25,8 @@ const useStyles = createUseStyles({
 });
 
 export const StringEditor = () => {
-    const status = useSelector(s => s.editors.editorSetReducer.status);
-    const viewValue = useSelector(s => s.editors.editorSetReducer.viewValue);
+    const status = useSelector(s => s.editors.editorStringReducer.status);
+    const viewValue = useSelector(s => s.editors.editorStringReducer.viewValue);
     const styles = useStyles();
     const dispatch = useDispatch();
 

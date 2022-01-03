@@ -5,6 +5,7 @@ import { editorHashClear, editorHashGetFields } from './editor-hash';
 import { editorListClear, editorListGetValues } from './editor-list';
 import { editorStringGetValue } from './editor-string';
 import { REDIS_TYPES } from '../constants/redis-types';
+import { editorSetGetValues } from './editor-set';
 
 export const VIEWER_CHANGE_SEARCH_FIELD = 'VIEWER_CHANGE_SEARCH_FIELD';
 export const VIEWER_CHANGE_RESET = 'VIEWER_CHANGE_RESET';
@@ -60,11 +61,15 @@ export const addKey = (key: string, typeValue: string) => {
                 break;
             }
             case REDIS_TYPES.LIST: {
-                await redisClient().lpush(key, 'New item');
+                await redisClient().lpush(key, 'new_value');
                 break;
             }
             case REDIS_TYPES.HASH: {
                 await redisClient().hset(key, 'field', 'value');
+                break;
+            }
+            case REDIS_TYPES.SET: {
+                await redisClient().sadd(key, 'new_value');
                 break;
             }
             default: {
@@ -129,6 +134,10 @@ export function getValueAction(key: string, type: string): Function {
                 break;
             case 'none':
                 clearValues(dispatch, key, type);
+                break;
+            case 'set':
+                clearValues(dispatch, key, type);
+                dispatch(editorSetGetValues());
                 break;
         }
     }

@@ -8,14 +8,13 @@ import { HashEditor } from './editor/hash';
 import { StringEditor } from './editor/string';
 import { ListEditor } from './editor/list';
 import { REDIS_TYPES } from '../constants/redis-types';
+import { SetEditor } from './editor/set';
 
 const useStyles = createUseStyles({
     editor: {
         width: `calc(100% - calc(${paddings.main} * 2))`,
         display: 'flex',
         flexDirection: 'column',
-        // paddingTop: paddings.main,
-        // padding: paddings.main,
         height: '100%',
     }
 });
@@ -25,6 +24,7 @@ const defineEditor = (type: string) => {
         case REDIS_TYPES.HASH: return <HashEditor />
         case REDIS_TYPES.STRING: return <StringEditor />
         case REDIS_TYPES.LIST: return <ListEditor />
+        case REDIS_TYPES.SET: return <SetEditor />
         default: return '';
     }
 }

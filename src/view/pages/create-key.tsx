@@ -7,6 +7,7 @@ import { Input } from '../components/elements/input';
 import { Row } from '../components/elements/row';
 import { Select } from '../components/elements/select';
 import { colors } from '../constants/colors';
+import { REDIS_TYPES } from '../constants/redis-types';
 
 const useStyles = createUseStyles({
     wrap: {
@@ -38,9 +39,9 @@ export const CreateKey = () => {
         <Row>
             <Input onChange={(str) => setValue(str.currentTarget.value)} placeholder="key" value={value} />
             <Select value={type} onChange={(opt) => setType(opt)}>
-                <option>string</option>
-                <option>list</option>
-                <option>hash</option>
+                {Object.keys(REDIS_TYPES).map((key) => {
+                    return <option key={key}>{REDIS_TYPES[key as keyof typeof REDIS_TYPES]}</option>;
+                })}
             </Select>
         </Row>
         <div className={styles.buttonsGroup}>

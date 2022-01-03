@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { redisClient } from '../../common';
-import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines } from 'react-icons/fa';
+import { FaList, FaCaretDown, FaCaretRight, FaRegCircle, FaBorderAll, FaFolder, FaGripLines, FaStripe, FaEllipsisH } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTreeAction, getValueAction, setKey } from '../actions/viewerAction';
 import { createUseStyles } from 'react-jss';
@@ -85,6 +85,7 @@ const typeIcons: Record<string, string | JSX.Element> = {
     'list': <FaList />,
     'string': <FaGripLines />,
     'hash': <FaBorderAll />,
+    'set': <FaEllipsisH />,
     'none': <FaFolder />,
 }
 

@@ -14,9 +14,28 @@ export const VIEWER_GET_TREE_SUCCESS = 'VIEWER_GET_TREE_REQUEST';
 export const VIEWER_GET_TREE_STARTED = 'VIEWER_GET_TREE_LOADING';
 export const VIEWER_GET_TREE_FAIlURE = 'VIEWER_GET_TREE_PAYLOAD';
 export const VIEWER_SET_VALUE = 'VIEWER_SET_VALUE';
+export const VIEWER_SET_TTL = 'VIEWER_SET_TTL';
 export const ADD_KEY = 'ADD_KEY';
 
 export const KEYS_LIMIT = 500;
+
+export const viewerActionSetTTL = (ttl: string) => {
+    return {
+        type: VIEWER_SET_TTL as typeof VIEWER_SET_TTL,
+        payload: {
+            ttl,
+        }
+    }
+}
+
+export const viewerActionGetTTL = () => {
+    return async (dispatch: Function, getState: Function) => {
+        const state = getState() as ReturnType<typeof store.getState>;
+
+        const ttl = await redisClient().ttl(state.viewerReducer.key);
+        dispatch(viewerActionSetTTL(ttl.toString()));
+    }
+}
 
 export const viewerActionResetState = () => {
     return {
@@ -119,6 +138,7 @@ const clearValues = (dispatch: Function, key: string, type: string) => {
     dispatch(setKey(key, type));
     dispatch(editorHashClear());
     dispatch(editorListClear());
+    dispatch(viewerActionGetTTL());
 }
 
 export function getValueAction(key: string, type: string): Function {
@@ -159,4 +179,4 @@ export type viewerAction =
     | ReturnType<typeof getTreeActionFailure>
     | ReturnType<typeof setKey>
     | ReturnType<typeof viewerActionResetState>
-    // | ReturnType<typeof addKey>;
+    | ReturnType<typeof viewerActionSetTTL>;

@@ -2,22 +2,22 @@ import { Locale } from ".";
 
 export const rus: Locale = {
     common: {
-        successful_connection: 'Успешное соединение',
-        disconnect: 'отключиться',
-        back: 'назад',
-        refresh: 'обновить',
-        cancel: 'отмена',
-        remove: 'удалить',
-        rename: 'переименовать',
-        create: 'создать',
-        score: 'вес',
-        saved: 'сохранено',
-        save: 'сохранить',
-        test: 'тест',
-        edit: 'изменить',
-        add: 'добавить',
+        successful_connection: 'Успешное Соединение',
+        disconnect: 'Отключиться',
+        back: 'Назад',
+        refresh: 'Обновить',
+        cancel: 'Отмена',
+        remove: 'Удалить',
+        rename: 'Переименовать',
+        create: 'Создать',
+        score: 'Вес',
+        saved: 'Сохранено',
+        save: 'Сохранить',
+        test: 'Тест',
+        edit: 'Изменить',
+        add: 'Добавить',
     },
     settings: {
-        select_lang: 'выбрать язык'
+        select_lang: 'Выбрать Язык'
     },
 }

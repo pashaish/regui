@@ -2,22 +2,22 @@ import { Locale } from ".";
 
 export const eng: Locale = {
     common: {
-        successful_connection: 'successful connection',
-        disconnect: 'disconnect',
-        back: 'back',
-        refresh: 'refresh',
-        cancel: 'cancel',
-        create: 'create',
-        remove: 'remove',
-        rename: 'rename',
-        score: 'score',
-        saved: 'saved',
-        save: 'save',
-        test: 'test',
-        edit: 'edit',
-        add: 'add',
+        successful_connection: 'Successful Connection',
+        disconnect: 'Disconnect',
+        back: 'Back',
+        refresh: 'Refresh',
+        cancel: 'Cancel',
+        create: 'Create',
+        remove: 'Remove',
+        rename: 'Rename',
+        score: 'Score',
+        saved: 'Saved',
+        save: 'Save',
+        test: 'Test',
+        edit: 'Edit',
+        add: 'Add',
     },
     settings: {
-        select_lang: 'select language'
+        select_lang: 'Select Language'
     },
 }

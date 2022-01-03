@@ -47,7 +47,7 @@ export const editorZSetReducer = (state = initialState, action: editorZSetAction
         }
         case EDITOR_ZSET_SET_VIEW_VALUE: return {
             ...state,
-            viewValue: [action.payload.mass || state.currentValue[0], action.payload.value],
+            viewValue: [action.payload.mass === undefined ? state.currentValue[0] : action.payload.mass, action.payload.value],
         }
         default: return state;
     }

@@ -84,7 +84,7 @@ export const ConnectionEdit = (props: Props) => {
     return <div className={styles.list}>
         <Input placeholder='name' value={name} onChange={(e) => setname(e.target.value)} />
         <Input placeholder='host' value={host} onChange={(e) => sethost(e.target.value)} />
-        <Input placeholder='port' value={port} onChange={(e) => setport(e.target.value)} />
+        <Input type="number" placeholder='port' value={port} onChange={(e) => setport(e.target.value)} />
         <Input placeholder='username' value={username} onChange={(e) => setusername(e.target.value)} />
         <Input placeholder='password' value={password} onChange={(e) => setpassword(e.target.value)} />
         <div className={styles.buttons}>

@@ -26,6 +26,7 @@ const useStyles = createUseStyles({
 });
 
 interface IProps {
+    type?: 'text' | 'number';
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     onBlur?: React.ChangeEventHandler<HTMLInputElement>;
     onInput?: React.ChangeEventHandler<HTMLInputElement>;
@@ -40,6 +41,7 @@ interface IProps {
 
 export const Input = (props: IProps) => {
     const styles = useStyles();
+    const inputType = props.type || 'text';
 
     return <input
         autoFocus={props.autoFocus}
@@ -49,7 +51,31 @@ export const Input = (props: IProps) => {
         readOnly={props.readonly}
         placeholder={props.placeholder}
         className={`${styles.input} ${props.className}`}
-        onChange={props.onChange}
+        onChange={(e) => {
+            switch(inputType) {
+                case 'number': {
+                    const chars = e.target.value.split('').map(ch => ch === ',' ? '.' : ch);
+                    e.target.value = chars.join('');
+                    const isNumber = (char: string) => !isNaN(Number(char));
+                    const isValidChar = (char: string, index: number) =>
+                        (isNumber(char) ||
+                        (index === 0 && char === '-') ||
+                        (index !== 0 && char === '.')) &&
+                        char !== ' ';
+        
+                    const isValidNumberChars = (chars: string[]) => chars
+                        .every(isValidChar) || chars.length === 0
+                    
+                    if (!isValidNumberChars(chars)) {
+                        return;
+                    }                    
+                }
+
+                case 'text': {
+                }
+            }
+            return props.onChange?.(e);
+        }}
         defaultValue={props.defaultValue}
         value={props.value}
     ></input>

@@ -103,6 +103,7 @@ export const ZSetEditor = () => {
                 <div className={styles.valueEditor}>
                     <div className={styles.buttons}>
                         <Input
+                            type="number"
                             className={styles.sizeInput}
                             placeholder="mass"
                             value={viewValue[0].toString()}

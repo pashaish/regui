@@ -53,14 +53,14 @@ export const Editor = () => {
     const dispatch = useDispatch();
     const styles = useStyles();
     
-    if (!realTTL) {
+    if (typeof realTTL !== 'string') {
         dispatch(viewerActionGetTTL());
     }
     
     return <div className={styles.editor}>
         <div className={styles.inputs}>
             <Input readonly={true} value={currentKey} />
-            <Input value={realTTL} className={styles.ttlInput} onChange={async (newvalue) => {
+            <Input type="number" value={realTTL} className={styles.ttlInput} onChange={async (newvalue) => {
                 dispatch(viewerActionSetTTL(newvalue.target.value));
             }} />
             <Button onClick={async () => {

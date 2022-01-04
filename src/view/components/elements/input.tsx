@@ -8,6 +8,10 @@ const border = 1;
 
 const useStyles = createUseStyles({
     input: {
+        '&[readonly]': {
+            userSelect: 'none',
+            cursor: 'default',
+        },
         margin: `${0}px`,
         marginLeft: margin,
         marginRight: margin,

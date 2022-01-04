@@ -2,6 +2,11 @@ import { Locale } from ".";
 
 export const eng: Locale = {
     common: {
+        host: 'Host',
+        name: 'Name',
+        password: 'Password',
+        port: 'Port',
+        username: 'Username',
         successful_connection: 'Successful Connection',
         disconnect: 'Disconnect',
         back: 'Back',

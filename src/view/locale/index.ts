@@ -4,6 +4,11 @@ import { rus } from './rus';
 
 export interface Locale {
     common: {
+        name: string;
+        host: string;
+        port: string;
+        username: string;
+        password: string;
         back: string;
         refresh: string;
         add: string;

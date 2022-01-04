@@ -17,6 +17,11 @@ export interface NotifyParams {
 }
 
 const useStyles = createUseStyles({
+    title: {
+        margin: 'auto',
+        width: '100%',
+        textAlign: 'center',
+    },
     root: {
         position: 'absolute',
         right: '5px',
@@ -49,7 +54,7 @@ export const notifyCreate = () => {
         return <div className={styles.root}>
             {notifies.filter(s => !s.toDelete).map((not) => {
                 return <div className={styles.item} key={`${not.timestamp}${not.timestamp}${not.text}`} onClick={() => not.toDelete = true}>
-                    {not.title}
+                    <div className={styles.title}>{not.title}</div>
                     {not.text}
                 </div>
             })}

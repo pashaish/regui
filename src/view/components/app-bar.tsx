@@ -34,7 +34,7 @@ export const AppBar = () => {
     const history = useHistory();
     const location = useLocation();
     const styles = useStyles();
-    console.log(location);
+
     return <div className={styles.menu}>
         {location.pathname !== '/settings'
             ?

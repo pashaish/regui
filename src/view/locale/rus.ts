@@ -2,6 +2,11 @@ import { Locale } from ".";
 
 export const rus: Locale = {
     common: {
+        host: 'Хост',
+        name: 'Имя',
+        password: 'Пароль',
+        port: 'Порт',
+        username: 'Имя пользователя',
         successful_connection: 'Успешное Соединение',
         disconnect: 'Отключиться',
         back: 'Назад',

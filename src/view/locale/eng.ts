@@ -25,4 +25,7 @@ export const eng: Locale = {
     settings: {
         select_lang: 'Select Language'
     },
+    appBar: {
+        connected_to: 'Connected To',
+    },
 }

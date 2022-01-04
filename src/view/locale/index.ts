@@ -27,6 +27,9 @@ export interface Locale {
     settings: {
         select_lang: string;
     },
+    appBar: {
+        connected_to: string;
+    },
 }
 
 export const locale = (): Locale => {

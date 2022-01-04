@@ -25,4 +25,7 @@ export const rus: Locale = {
     settings: {
         select_lang: 'Выбрать Язык'
     },
+    appBar: {
+        connected_to: 'Присоединен к'
+    }
 }

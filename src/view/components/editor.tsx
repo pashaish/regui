@@ -53,6 +53,13 @@ export const Editor = () => {
     const realTTL = useSelector<state, string>(state => state.viewerReducer.ttl);
     const dispatch = useDispatch();
     const styles = useStyles();
+    const [isFocus, setIsFocus] = useState(false);
+
+    setTimeout(() => {
+        if (!isFocus) {
+            dispatch(viewerActionGetTTL());
+        }
+    }, 1000);
     
     if (typeof realTTL !== 'string') {
         dispatch(viewerActionGetTTL());
@@ -61,20 +68,24 @@ export const Editor = () => {
     return <div className={styles.editor}>
         <div className={styles.inputs}>
             <Input readonly={true} value={currentKey} />
-            <Input type="number" value={realTTL} className={styles.ttlInput} onChange={async (newvalue) => {
-                dispatch(viewerActionSetTTL(newvalue.target.value));
-            }} />
-            <Button onClick={async () => {
-                const ttl = Number(realTTL);
-
-                if (!isNaN(ttl)) {
-                    await redisClient().expire(currentKey, ttl);
-                    dispatch(viewerActionGetTTL());
-                }
-            }}>{locale().common.save}</Button>
-            <Button onClick={() => {
-                dispatch(viewerActionGetTTL());
-            }}>{locale().common.refresh}</Button>
+            <Input
+                onFocus={() => setIsFocus(true)}
+                onBlur={async () => {
+                    const ttl = Number(realTTL);
+                    
+                    if (!isNaN(ttl)) {
+                        await redisClient().expire(currentKey, ttl);
+                        dispatch(viewerActionGetTTL());
+                        setIsFocus(false);
+                    }
+                }}
+                type="number"
+                value={realTTL}
+                className={styles.ttlInput}
+                onChange={async (newvalue) => {
+                    dispatch(viewerActionSetTTL(newvalue.target.value));
+                }}
+            />
         </div>
         {defineEditor(type)}
     </div>;

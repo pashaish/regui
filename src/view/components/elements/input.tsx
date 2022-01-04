@@ -33,6 +33,7 @@ interface IProps {
     type?: 'text' | 'number';
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     onBlur?: React.ChangeEventHandler<HTMLInputElement>;
+    onFocus?: React.ChangeEventHandler<HTMLInputElement>;
     onInput?: React.ChangeEventHandler<HTMLInputElement>;
     onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
     value?: string;
@@ -50,6 +51,7 @@ export const Input = (props: IProps) => {
     return <input
         autoFocus={props.autoFocus}
         onBlur={props.onBlur}
+        onFocus={props.onFocus}
         onKeyDown={props.onKeyDown}
         onInput={props.onInput}
         readOnly={props.readonly}

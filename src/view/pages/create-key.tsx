@@ -38,7 +38,7 @@ export const CreateKey = () => {
 
     return <div className={styles.wrap}>
         <Row>
-            <Input onChange={(str) => setValue(str.currentTarget.value)} placeholder="key" value={value} />
+            <Input onChange={(str) => setValue(str.currentTarget.value)} placeholder={locale().common.key} value={value} />
             <Select value={type} onChange={(opt) => setType(opt)}>
                 {Object.keys(REDIS_TYPES).map((key) => {
                     return <option key={key}>{REDIS_TYPES[key as keyof typeof REDIS_TYPES]}</option>;

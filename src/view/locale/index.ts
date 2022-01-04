@@ -9,9 +9,12 @@ export interface Locale {
         port: string;
         username: string;
         password: string;
+        value: string;
+        key: string;
         back: string;
         refresh: string;
         add: string;
+        filter: string;
         test: string;
         cancel: string;
         save: string;

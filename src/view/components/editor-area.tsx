@@ -4,6 +4,7 @@ import { createUseStyles } from 'react-jss';
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
+import { locale } from '../locale';
 
 interface Props {
     value?: string;
@@ -32,7 +33,7 @@ export const EditorArea = (props: Props) => {
     // }
 
     return <ReactAce
-        placeholder="value"
+        placeholder={locale().common.value}
         readOnly={props.readonly}
         height="96.9%"
         width="100%"

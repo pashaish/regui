@@ -67,7 +67,7 @@ export const Menu = () => {
             <Input
                 onChange={(e: any) => dispatch(changeSearchFieldAction(e.target.value))}
                 value={searchField}
-                placeholder='filter'
+                placeholder={locale().common.filter}
             />
             <Button
                 className={styles.button}

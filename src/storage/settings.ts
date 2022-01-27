@@ -1,7 +1,7 @@
 import { LocalStorage } from "node-localstorage";
 import { join, resolve } from 'path';
 
-const ls = () => new LocalStorage(join(process.env.TMPDIR as string, '/storage/settings'));
+const ls = () => new LocalStorage(join((process.env.TMPDIR || process.env.TMP) as string, '/storage/settings'));
 
 export function getSettings() {
     return {

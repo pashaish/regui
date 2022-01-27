@@ -9,7 +9,7 @@ export interface Connection {
     port: number;
 }
 
-const ls = () => new LocalStorage(join(process.env.TMPDIR as string, '/storage/connections'));
+const ls = () => new LocalStorage(join((process.env.TMPDIR || process.env.TMP) as string, '/storage/connections'));
 
 export function setActiveConnection(conn: Connection) {
     ls().setItem('active', JSON.stringify(conn));

@@ -1,4 +1,5 @@
 import { LocalStorage } from "node-localstorage";
+import { join, resolve } from 'path';
 
 export interface Connection {
     username: string | null;
@@ -8,18 +9,18 @@ export interface Connection {
     port: number;
 }
 
-const ls = new LocalStorage(__dirname + '/storage/connections');
+const ls = () => new LocalStorage(join(process.env.TMPDIR as string, '/storage/connections'));
 
 export function setActiveConnection(conn: Connection) {
-    ls.setItem('active', JSON.stringify(conn));
+    ls().setItem('active', JSON.stringify(conn));
 }
 
 export function deleteActiveConnection() {
-    ls.removeItem('active');
+    ls().removeItem('active');
 }
 
 export function getActiveConnection(): Connection | null {
-    const item = ls.getItem('active');
+    const item = ls().getItem('active');
     if (!item) {
         return null;
     }
@@ -28,11 +29,11 @@ export function getActiveConnection(): Connection | null {
 }
 
 export function getConnections(): Connection[] {
-    return JSON.parse(ls.getItem('connections') || '[]');
+    return JSON.parse(ls().getItem('connections') || '[]');
 }
 
 export function setConnections(connections: Connection[]) {
-    ls.setItem('connections', JSON.stringify(connections));
+    ls().setItem('connections', JSON.stringify(connections));
 }
 
 export function addConnection(connection: Connection) {

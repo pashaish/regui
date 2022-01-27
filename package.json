@@ -7,7 +7,7 @@
     "test": "mocha -r ts-node/register 'src/**/*.test.ts'",
     "dev-server": "remotedev --port=8000",
     "clean": "modclean -n default:safe",
-    "build": "electron-builder",
+    "build": "electron-builder -wlm",
     "start-tsc": "NODE_ENV=development tsc -w & NODE_ENV=development electron -r ts-node/register ./js/index.js",
     "start": "NODE_ENV=development tsc -w & NODE_ENV=development electron -r ts-node/register  ./js/index.js"
   },

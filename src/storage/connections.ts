@@ -8,7 +8,7 @@ export interface Connection {
     port: number;
 }
 
-const ls = new LocalStorage('./storage/connections');
+const ls = new LocalStorage(__dirname + '/storage/connections');
 
 export function setActiveConnection(conn: Connection) {
     ls.setItem('active', JSON.stringify(conn));

@@ -1,6 +1,6 @@
 import { LocalStorage } from "node-localstorage";
 
-const ls = new LocalStorage('./storage/settings');
+const ls = new LocalStorage(__dirname +'/storage/settings');
 
 export function getSettings() {
     return {

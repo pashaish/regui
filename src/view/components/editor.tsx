@@ -10,11 +10,8 @@ import { ListEditor } from './editor/list';
 import { REDIS_TYPES } from '../constants/redis-types';
 import { SetEditor } from './editor/set';
 import { ZSetEditor } from './editor/zset';
-import { Row } from './elements/row';
-import { Button } from './elements/button';
 import { viewerActionGetTTL, viewerActionSetTTL } from '../actions/viewerAction';
 import { redisClient } from '../../common';
-import { locale } from '../locale';
 
 const useStyles = createUseStyles({
     ttlInput: {
@@ -74,7 +71,11 @@ export const Editor = () => {
                     const ttl = Number(realTTL);
                     
                     if (!isNaN(ttl)) {
-                        await redisClient().expire(currentKey, ttl);
+                        if (ttl === -1) {
+                            await redisClient().persist(currentKey);
+                        } else {
+                            await redisClient().expire(currentKey, ttl);
+                        }
                         dispatch(viewerActionGetTTL());
                         setIsFocus(false);
                     }

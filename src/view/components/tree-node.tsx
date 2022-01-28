@@ -147,32 +147,9 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
                 <div className={style.icon}>
                     {typeIcons[recordType]}
                 </div>
-                {
-                    isEditKey ?
-                    <Input
-                        defaultValue={current}
-                        onBlur={() => setIsEditKey(false)}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        onKeyDown={async (e) => {
-                            if (e.key !== 'Enter') {
-                                return;
-                            }
-
-                            if ((await redisClient().keys(editValue)).length > 0) {
-                                return;
-                            }
-
-                            setIsEditKey(false);
-
-                            await redisClient().rename(current, editValue);
-                            dispatch(getTreeAction());
-                        }}
-                    ></Input>
-                    :
-                    <div className={style.keyPart}>
-                        {current}
-                    </div>
-                }
+                <div className={style.keyPart}>
+                    {current}
+                </div>
             </div>
             <div className={isOpen ? '' : style.hidden}>
                 {Object.keys(tree[current]).map((key, index) =>
@@ -192,9 +169,6 @@ export const TreeNode = ({ current, tree, path }: IProps) => {
             {
                 recordType !== 'none' ?
                 <>
-                <MenuItem onClick={() => {
-                    setIsEditKey(true);
-                }}>{locale().common.rename}</MenuItem>
                 <MenuItem onClick={() => {
                     redisClient().del(`${fullCurrent}`);
                     dispatch(getTreeAction());

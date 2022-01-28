@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../reducers';
 import { Input } from './elements/input';
@@ -10,7 +10,7 @@ import { ListEditor } from './editor/list';
 import { REDIS_TYPES } from '../constants/redis-types';
 import { SetEditor } from './editor/set';
 import { ZSetEditor } from './editor/zset';
-import { viewerActionGetTTL, viewerActionSetTTL } from '../actions/viewerAction';
+import { getTreeAction, getValueAction, viewerActionGetTTL, viewerActionSetTTL } from '../actions/viewerAction';
 import { redisClient } from '../../common';
 
 const useStyles = createUseStyles({
@@ -46,11 +46,17 @@ const defineEditor = (type: string) => {
 export const Editor = () => {
     type state = ReturnType<typeof store.getState>;
     const type = useSelector<state, string>(state => state.viewerReducer.type);
+    console.log(type);
     const currentKey = useSelector<state, string>(state => state.viewerReducer.key);
     const realTTL = useSelector<state, string>(state => state.viewerReducer.ttl);
     const dispatch = useDispatch();
     const styles = useStyles();
     const [isFocus, setIsFocus] = useState(false);
+    const [key, setKey] = useState(currentKey);
+
+    useEffect(() => {
+        setKey(currentKey);
+    }, [currentKey]);
 
     setTimeout(() => {
         if (!isFocus) {
@@ -64,7 +70,23 @@ export const Editor = () => {
     
     return <div className={styles.editor}>
         <div className={styles.inputs}>
-            <Input readonly={true} value={currentKey} />
+            <Input value={key} onKeyDown={async (e) => {
+                if (e.key === 'Enter') {
+                    await redisClient().rename(currentKey, key);
+                    dispatch(getTreeAction());
+                    dispatch(getValueAction(key, type));
+                    setKey('');
+                }
+            }} onChange={(e) => {
+                setKey(e.target.value);
+            }} onBlur={async () => {
+                if (currentKey !== key) {
+                    await redisClient().rename(currentKey, key);
+                    dispatch(getTreeAction());
+                    dispatch(getValueAction(key, type));
+                    setKey('');
+                }
+            }}/>
             <Input
                 onFocus={() => setIsFocus(true)}
                 onBlur={async () => {

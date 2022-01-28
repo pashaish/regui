@@ -18,11 +18,11 @@ jobs:
       - name: "Build"
         run: |
           npm i
-          npm run build
+          GH_TOKEN=${{ secrets.GH_TOKEN }} npm run build
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: "${{ secrets.GH_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"

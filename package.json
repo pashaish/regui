@@ -14,6 +14,7 @@
   "build": {
     "appId": "com.regui.app",
     "extends": null,
+    "publish": "never",
     "files": [
       "package.json",
       "js",

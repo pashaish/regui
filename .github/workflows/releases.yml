@@ -24,10 +24,9 @@ jobs:
         with:
           repo_token: "${{ secrets.GH_TOKEN }}"
           automatic_release_tag: "latest"
-          prerelease: true
           title: "Development Build"
           files: |
             LICENSE.txt
-            *.dmg
-            *.AppImage
-            *.exe
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.exe
